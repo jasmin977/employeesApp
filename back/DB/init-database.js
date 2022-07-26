@@ -1,4 +1,8 @@
-require("dotenv").config();
+const path = require("path");
+
+require("dotenv").config({
+  path: path.join(__dirname, "..", "config", ".env"),
+});
 const sequelize = require("./database");
 const bcrypt = require("bcrypt");
 const debug = require("debug")("initDB");
@@ -12,7 +16,7 @@ const employees = require("../data/employees.json");
 
 async function initDB() {
   console.log("Creating database");
-  await sequelize.sync({ force: true });//delete it if its already exits
+  await sequelize.sync({ force: true }); //delete it if its already exits
 
   console.log("Creating our beloved admin");
   const password = "password";
