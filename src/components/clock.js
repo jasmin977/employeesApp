@@ -22,9 +22,9 @@ function Clock() {
     }, 1000 * 60 * 60);
   }, []);
   return (
-    <div class="flex flex-col  items-center static top-[100vh]">
-      <p class="font-medium text-5xl text-gray-600">{clockState}</p>
-      <p class="font-medium text-2xl  text-gray-700">{dateState}</p>
+    <div className="flex flex-col  items-center static top-[100vh]">
+      <p className="font-medium text-5xl text-gray-600">{clockState}</p>
+      <p className="font-medium text-2xl  text-gray-700">{dateState}</p>
     </div>
   );
 }

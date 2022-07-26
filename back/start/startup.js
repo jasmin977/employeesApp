@@ -15,7 +15,11 @@ module.exports = (app) => {
   //   );
   app.use(cookieParser());
   app.use(express.json());
-  app.use("/api/auth", authRoutes);
+
+  // auth middleware
   app.use("/api/admin", verifyToken);
+
+  // routes
+  app.use("/api/auth", authRoutes);
   app.use("/api/admin", adminRoute);
 };
