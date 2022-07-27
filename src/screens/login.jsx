@@ -9,15 +9,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { InputField } from "../components";
 
 const Login = () => {
+  const [redirect, setredirect] = useState(false);
+  
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
-  toast.success(cookies.token);
   const [values, setValues] = useState({ name: "", password: "" });
 
   useEffect(() => {
-    if (cookies.token) {
-      navigate("/dashboard"); //which is dashhbord
-    }
+    axios.post("/api/auth/verify").then(({data}) => {
+      if(data.status){
+        navigate("/dashboard"); //which is dashhbord
+      }else{
+        setredirect(true)
+      }
+    }).finally(() => setredirect(true))
   }, [cookies, navigate]);
   
   const handleSubmit = async (event) => {
@@ -33,9 +38,9 @@ const Login = () => {
     }
   };
 
-  return (
+  return ( redirect ?
     <div className="relative flex min-h-screen flex-col  overflow-hidden bg-gray-60 py-6 sm:py-12 justify-around">
-      <div className="relative bg-white  shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-sm flex flex-row">
+      <div className="relative bg-white  shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-sm flex flex-row justify-center sm:justify-start">
         <div className=" h-auto basis-1/2 grid grid-cols-1 gap-4 content-center mx-7">
           <p className="font-medium text-sky-900 text-3xl">Login</p>
           <p className="font-thin text-gray-700 text-xs">
@@ -74,7 +79,7 @@ const Login = () => {
             </div>
           </form>
         </div>
-        <div className="bg-[url('../img/bg.png')] basis-1/2 w-64 h-96 bg-cover bg-center justify-center items-center">
+        <div className="sm:block  hidden bg-[url('../img/bg.png')] basis-1/2 w-64 h-96 bg-cover bg-center justify-center items-center">
           <div className="bg-gradient-to-t from-my-dark-blue to-my-sky-blue-transparent w-full h-full relative  justify-items-center z-0 items-center">
             <div className=" absolute inset-0 flex justify-center items-center z-10">
               <div className="bg-[url('../img/logo.png')] bg-no-repeat w-40 h-40 bg-cover"></div>
@@ -85,7 +90,7 @@ const Login = () => {
 
       <Clock />
       <ToastContainer position="bottom-right" />
-    </div>
+    </div>: <></>
   );
 };
 

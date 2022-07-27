@@ -8,18 +8,22 @@ const MY_SECRET = process.env.MY_SECRET;
 
 module.exports.verifyToken = async (req, res, next) => {
   const { token } = req.cookies;
-  if (token) {
-    const decodedToken = jwt.verify(token, MY_SECRET);
-    if (!decodedToken) {
-      res.status(401).json({ status: false });
+  try {
+    if (token) {
+      const decodedToken = jwt.verify(token, MY_SECRET);
+      if (!decodedToken) {
+        res.status(401).json({ status: false });
+      } else {
+        const admin = await Admin.findOne({ where: { id: decodedToken.id } });
+        if (!admin) return res.json({ status: false });
+        req.user = admin;
+        next(); //to contenue to the next middelware
+      }
     } else {
-      const admin = await Admin.findOne({ where: { id: decodedToken.id } });
-      if (!admin) return res.json({ status: false });
-      req.user = admin;
+      res.status(401).json({ status: false });
     }
-    next(); //to contenue to the next middelware
-  } else {
+  } catch (error) {
+    console.log(error.message);
     res.status(401).json({ status: false });
-    next();
   }
 };
