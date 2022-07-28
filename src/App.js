@@ -9,19 +9,53 @@ import {
 
 import Login from "./screens/login";
 import Dashboard from "./screens/dashboard";
+import Employees from "./screens/Employees";
+import SideBar from "./components/SideBar";
+
 import { AuthRoute } from "./components";
+import TimeSheets from "./screens/TimeSheets";
+import Employee from "./screens/OneEmployee";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route exact path="/login" element={<Login />} />
+
         <Route
           exact
           path="/dashboard"
           element={
             <AuthRoute>
               <Dashboard />
+            </AuthRoute>
+          }
+        />
+        <Route
+          exact
+          path="/employees"
+          element={
+            <AuthRoute>
+              <Employees />
+            </AuthRoute>
+          }
+        />
+        <Route
+          exact
+          path="/employees/:id"
+          element={
+            <AuthRoute>
+              <Employee />
+            </AuthRoute>
+          }
+        />
+
+        <Route
+          exact
+          path="/timesheets"
+          element={
+            <AuthRoute>
+              <TimeSheets />
             </AuthRoute>
           }
         />
