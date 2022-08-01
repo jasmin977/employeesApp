@@ -15,6 +15,7 @@ import SideBar from "./components/SideBar";
 import { AuthRoute } from "./components";
 import TimeSheets from "./screens/TimeSheets";
 import Employee from "./screens/OneEmployee";
+import AddEmployee from "./screens/AddEmployee";
 
 function App() {
   return (
@@ -42,14 +43,23 @@ function App() {
         />
         <Route
           exact
-          path="/employees/:id"
+          path="/addemployee/"
+          element={
+            <AuthRoute>
+              <AddEmployee />
+            </AuthRoute>
+          }
+        />
+
+        <Route
+          exact
+          path="/employee/:id"
           element={
             <AuthRoute>
               <Employee />
             </AuthRoute>
           }
         />
-
         <Route
           exact
           path="/timesheets"

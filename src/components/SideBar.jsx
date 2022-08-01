@@ -31,7 +31,7 @@ function SideBar() {
                       to="/dashboard"
                       exact
                       className="flex items-center gap-4 text-sm text-white font-medium px-4 py-3 rounded-lg"
-                      activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                      activeclassname="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                   >
                       <MdOutlineSpaceDashboard name="dashboard" size={25} />
                       Tableau de Board
@@ -41,7 +41,7 @@ function SideBar() {
                   <NavLink
                       to="/employees"
                       className="flex items-center gap-4 text-sm text-white font-medium px-4 py-3 rounded-lg"
-                      activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                      activeclassname="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                   >
                       <FiUsers name="settings" size={25} />
                       Employés
@@ -51,7 +51,7 @@ function SideBar() {
                   <NavLink
                       to="/timesheets"
                       className="flex items-center gap-4 text-sm text-white font-medium px-4 py-3 rounded-lg"
-                      activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                      activeclassname="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                   >
                       <AiOutlineFieldTime name="toc"size={25} />
                       Feuilles de Temps
@@ -61,7 +61,7 @@ function SideBar() {
                   <NavLink
                       to="/maps"
                       className="flex items-center gap-4 text-sm text-white font-medium px-4 py-3 rounded-lg"
-                      activeClassName="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
+                      activeclassname="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"
                   >
                       <MdOutlineTask name="map"size={25}/>
                       Tàches

@@ -16,6 +16,7 @@ export default function Dashboard() {
   };
   return( 
    < div className="md:ml-64">
+     
   <SideBar/>
   <div>dashboard</div>
    {/** <button onClick={logOut}>Log out</button>*/}  

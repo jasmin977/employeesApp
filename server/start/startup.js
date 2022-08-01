@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("../routes/authRoutes");
 const adminRoute = require("../routes/adminRoute");
 const { verifyToken } = require("../middlewares/authMiddleware");
-
+const bodyParser = require("body-parser");
 module.exports = (app) => {
   // app.use(
   //     cors({
@@ -13,6 +13,10 @@ module.exports = (app) => {
   //       credentials: true,
   //     })
   //   );
+
+  app.use(bodyParser.json({ limit: "10mb" }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
+
   app.use(cookieParser());
   app.use(express.json());
 

@@ -16,7 +16,8 @@ const schema = Joi.object({
   holiday: Joi.number().required(),
   city: Joi.string().required(),
   profile_IMG: Joi.string().required(),
-  status: Joi.string().required(),
+
+  gender: Joi.string().required(),
   password: Joi.string().required(),
 });
 

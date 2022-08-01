@@ -7,13 +7,15 @@ import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InputField } from "../components";
+import { useForm } from "../components/hooks/useForm";
+
 
 const Login = () => {
   const [redirect, setredirect] = useState(false);
   
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
-  const [values, setValues] = useState({ name: "", password: "" });
+  const [values, setValues] = useForm({ name: "", password: "" });
 
   useEffect(() => {
     axios.post("/api/auth/verify").then(({data}) => {
@@ -55,7 +57,7 @@ const Login = () => {
               name="name"
               type="text"
               action={(e) =>
-                setValues({ ...values, [e.target.name]: e.target.value })
+                setValues(e)
               }
             />
             <InputField
@@ -65,7 +67,7 @@ const Login = () => {
               name="password"
               type="password"
               action={(e) =>
-                setValues({ ...values, [e.target.name]: e.target.value })
+                setValues(e)
               }
             />
             <div className="flex justify-end items-center w-full">
@@ -82,7 +84,7 @@ const Login = () => {
         <div className="sm:block  hidden bg-[url('../img/bg.png')] basis-1/2 w-64 h-96 bg-cover bg-center justify-center items-center">
           <div className="bg-gradient-to-t from-my-dark-blue to-my-sky-blue-transparent w-full h-full relative  justify-items-center z-0 items-center">
             <div className=" absolute inset-0 flex justify-center items-center z-10">
-              <div className="bg-[url('../img/logo.png')] bg-no-repeat w-40 h-40 bg-cover"></div>
+              <div className="bg-[url('../img/logo.png')] bg-no-repeat w-40 h-40 bg-contain"></div>
             </div>
           </div>
         </div>

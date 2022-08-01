@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
+    "lottie-react": "^2.3.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
@@ -17,7 +18,10 @@
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "react-time-picker": "^4.5.0",
+    "react-time-picker-input": "^2.0.10",
     "react-toastify": "^8.1.0",
+    "reactjs-popup": "^2.0.5",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
@@ -26,7 +30,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "npm run dev --prefix back"
+    "dev": "npm run dev --prefix server",
+    "init-db": "npm run init-db --prefix server"
   },
   "eslintConfig": {
     "extends": [
