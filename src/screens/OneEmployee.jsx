@@ -5,7 +5,9 @@ import axios from "axios";
 import { TailSpin } from "react-loader-spinner";
 import avatar from "../img/employee.png";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { AiOutlineEdit } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
 function Employee() {
   const [employeeData, setEmployeeData] = useState();
   const [data, setData] = useState([]);
@@ -40,7 +42,7 @@ function Employee() {
       try {
         const response = await axios.get("/api/admin/");
         setData(response.data);
-        console.log(response.data);
+        //  console.log(response.data);
       } catch (error) {
         console.log("error");
       }
@@ -84,14 +86,18 @@ function Employee() {
               <p className="text-base">Exporter</p>
             </button>
             <div className="flex flex-row justify-center w-full max-w-full px-3 right-0 ">
-              <div class="  h-full w-1/4 pl-2 pt-2 pb-2">
+              <div className="  h-full w-1/4 pl-2 pt-2 pb-2">
                 {data.map((employee, index) => (
-                  <NavLink to={`/employee/${employee.id}`} exact="true">
+                  <NavLink
+                    to={`/employee/${employee.id}`}
+                    exact="true"
+                    key={index}
+                  >
                     <div
                       className={`flex items-center border-b border-gray-300  
                       ${
                         employee.id.toString() === id
-                          ? "bg-my-sky-blue-transparent"
+                          ? "bg-my-sky-blue-transparent font-bold"
                           : index % 2 === 0
                           ? "bg-slate-50"
                           : "bg-transparent"
@@ -104,14 +110,14 @@ function Employee() {
                               ? avatar
                               : employee.profile_IMG
                           }
-                          class="inline-flex items-center justify-center mr-4  transition-all duration-200 ease-soft-in-out h-10 w-10 rounded-full"
+                          className="inline-flex items-center justify-center mr-4  transition-all duration-200 ease-soft-in-out h-10 w-10 rounded-full"
                         />
                       </div>
                       <div className="flex flex-col justify-center">
                         <h6 className="mb-0 leading-normal text-size-sm">
                           {employee.firstname} {employee.lastname}
                         </h6>
-                        <p className="mb-0 leading-tight text-size-xs text-slate-400">
+                        <p className="mb-0 leading-tight text-size-xs text-slate-500">
                           {employee.phone_number}
                         </p>
                       </div>
@@ -120,14 +126,14 @@ function Employee() {
                 ))}
               </div>
               <div className=" h-full w-3/4  border-l border-gray-300 p-10">
-                <div className="flex justify-start flex-row">
+                <div className="flex justify-clenter flex-row items-center ">
                   <img
                     src={
                       employeeData.profile_IMG === "defaulIMG"
                         ? avatar
                         : employeeData.profile_IMG
                     }
-                    class=" items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out h-24 w-24 rounded-full"
+                    className=" items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out h-24 w-24 rounded-full"
                   />
                   <div className="flex  justify-center flex-col">
                     <p className="mb-0 leading-7 font-semibold text-3xl">
@@ -137,8 +143,15 @@ function Employee() {
                       Status
                     </p>
                   </div>
+                  <NavLink
+                    to={`/editemployee/${employeeData.id}`}
+                    state={{ data: employeeData }}
+                    exact="true"
+                  >
+                    <AiOutlineEdit size={25} className="mx-5" />
+                  </NavLink>
                 </div>
-                <div className="bg-gray-100">
+                <div className="bg-gray-100 ">
                   {/** GENERAL INFO */}
                   <div className="grid my-3 grid-cols-3 gap-1 justify-evenly  w-full h-auto px-10 py-10">
                     <span className="font-semibold text-lg">General</span>

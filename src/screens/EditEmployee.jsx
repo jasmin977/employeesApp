@@ -1,37 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
+import { useNavigate, useLocation } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import FormInputField from "../components/SimpleInputField";
 import avatar from "../img/employee.png";
 import { ToastContainer, toast } from "react-toastify";
 import Moment from "moment";
 
-function AddEmployee() {
+function EditEmployee() {
+  const location = useLocation();
+  const { data } = location.state;
   const [values, setValues] = useState({
-    lastname: "",
-    firstname: "",
-    gender: "Femme",
-    city: "",
-    date_of_birth: "",
-    phone_number: "",
-    matricul: "",
-    password: "",
-    employee_since: Moment(new Date()).format("YYYY-MM-DD"),
-    holiday: 0,
-    start_time: "08:00",
-    end_time: "18:00",
-    profile_IMG: "defaulIMG",
+    lastname: data.lastname,
+    firstname: data.firstname,
+    gender: data.gender,
+    city: data.city,
+    date_of_birth: data.date_of_birth,
+    phone_number: data.phone_number,
+    matricul: data.matricul,
+    password: data.password,
+    employee_since: data.employee_since,
+    holiday: data.holiday,
+    start_time: data.start_time,
+    end_time: data.end_time,
+    profile_IMG: data.profile_IMG,
   });
   const [formErrors, setFormErrors] = useState({});
-  const errors = {};
+  const [employeeData, setEmployeeData] = useState();
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(formErrors);
-    console.log(values);
+    //console.log(formErrors);
   }, [formErrors, values]);
 
   const clearForm = () => {
@@ -98,14 +102,16 @@ function AddEmployee() {
 
     if (validateForm()) {
       try {
-        const { data, status } = await axios.post("/api/admin/", { ...values });
-        if (status) {
-          toast.success("nouveau employee ajouté!", {
+        const response = await axios.put(`/api/admin/${data.id}`, {
+          ...values,
+        });
+        if (response) {
+          toast.success("updated!", {
             position: "top-right",
             theme: "colored",
           });
           clearForm();
-          navigate("/employees", { replace: true });
+          // navigate("/employees", { replace: true });
         }
       } catch (ex) {
         toast.error(ex.response.data.message);
@@ -127,6 +133,16 @@ function AddEmployee() {
     });
   };
 
+  if (!data) {
+    return (
+      <>
+        <SideBar />
+        <div className="md:ml-64 flex items-center justify-center h-screen ">
+          <TailSpin height="80" width="80" color="#136ABA" />
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <div className="md:ml-64 bg-gray-100">
@@ -135,14 +151,14 @@ function AddEmployee() {
         <div className="w-full bg-gray-100  px-6 py-6 mx-auto">
           <Link
             className="flex flex-row text-gray-500 text-lg font-medium p-3 "
-            to="/employees"
+            to={`/employee/${data.id}`}
           >
             <IoIosArrowRoundBack
               color="gray"
               size={30}
               className="self-center"
             />
-            ajouter employé
+            modifier employé
           </Link>
           <div className="flex flex-wrap mx-3 rounded-md shadow-lg bg-white">
             <div className="flex   w-full max-w-full px-3 right-0 ">
@@ -172,14 +188,14 @@ function AddEmployee() {
                         label="Image"
                         name="profile_IMG"
                         accept=".jpeg, .png, .jpg"
-                        onChange={async (e) =>
+                        onChange={async (e) => {
                           setValues({
                             ...values,
                             [e.target.name]: await convertToBase64(
                               e.target.files[0]
                             ),
-                          })
-                        }
+                          });
+                        }}
                         className="flex w-full text-transparent hover:text-bg-my-sky-blue
       file:py-2 file:px-4
        file:border-0
@@ -394,17 +410,12 @@ function AddEmployee() {
                     </div>
                     <div>
                       <FormInputField
+                        disabled={true}
                         label="Mot de passe"
                         placeholder="*********"
-                        value={values.password}
+                        value="*********"
                         name="password"
-                        type="text"
-                        action={(e) =>
-                          setValues({
-                            ...values,
-                            [e.target.name]: e.target.value,
-                          })
-                        }
+                        type="password"
                       />
                     </div>
 
@@ -465,7 +476,7 @@ function AddEmployee() {
                     </div>
                     <div>
                       <button
-                        onClick={clearForm}
+                        onClick={() => clearForm()}
                         className=" md:w-full rounded bg-gray-300 font-medium self-end
                   w-full text-black text-sm py-2  my-3.5 justify-evenly"
                       >
@@ -478,7 +489,7 @@ function AddEmployee() {
                   w-full text-white text-sm py-2  my-3.5 justify-evenly  hover:bg-my-sky-blue-transparent  active:bg-my-sky-blue-transparent  px-4 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit"
                       >
-                        <p className="text-base">Enregistrer</p>
+                        <p className="text-base">Modifier</p>
                       </button>
                     </div>
                   </div>
@@ -503,4 +514,4 @@ function AddEmployee() {
   );
 }
 
-export default AddEmployee;
+export default EditEmployee;

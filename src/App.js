@@ -18,6 +18,7 @@ import Employee from "./screens/OneEmployee";
 import AddEmployee from "./screens/AddEmployee";
 import ToDo from "./screens/ToDo";
 import Calender from "./screens/Calender";
+import EditEmployee from "./screens/EditEmployee";
 
 function App() {
   return (
@@ -49,6 +50,15 @@ function App() {
           element={
             <AuthRoute>
               <AddEmployee />
+            </AuthRoute>
+          }
+        />
+        <Route
+          exact
+          path="/editemployee/:id"
+          element={
+            <AuthRoute>
+              <EditEmployee />
             </AuthRoute>
           }
         />
