@@ -1,12 +1,12 @@
 import React from "react";
 import SideBar from "../components/SideBar";
-function TimeSheets() {
+function ToDo() {
   return (
     <div className="md:ml-64">
       <SideBar />
-      <div>time sheets</div>
+      <div>todo</div>
     </div>
   );
 }
 
-export default TimeSheets;
+export default ToDo;

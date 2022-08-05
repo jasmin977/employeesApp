@@ -1,12 +1,12 @@
 import React from "react";
 import SideBar from "../components/SideBar";
-function TimeSheets() {
+function Calender() {
   return (
     <div className="md:ml-64">
       <SideBar />
-      <div>time sheets</div>
+      <div>calender</div>
     </div>
   );
 }
 
-export default TimeSheets;
+export default Calender;

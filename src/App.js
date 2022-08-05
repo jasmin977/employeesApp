@@ -16,6 +16,8 @@ import { AuthRoute } from "./components";
 import TimeSheets from "./screens/TimeSheets";
 import Employee from "./screens/OneEmployee";
 import AddEmployee from "./screens/AddEmployee";
+import ToDo from "./screens/ToDo";
+import Calender from "./screens/Calender";
 
 function App() {
   return (
@@ -66,6 +68,24 @@ function App() {
           element={
             <AuthRoute>
               <TimeSheets />
+            </AuthRoute>
+          }
+        />
+        <Route
+          exact
+          path="/todo"
+          element={
+            <AuthRoute>
+              <ToDo />
+            </AuthRoute>
+          }
+        />
+        <Route
+          exact
+          path="/calender"
+          element={
+            <AuthRoute>
+              <Calender />
             </AuthRoute>
           }
         />

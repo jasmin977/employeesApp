@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ListEmployee from "../components/ListEmployee";
 import SideBar from "../components/SideBar";
-import { Link } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
+import { Navigate, Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { FiUserPlus } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,7 +11,7 @@ function Employees() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [employees, setEmployees] = useState([]);
-
+  const [employeeID, setEmployeeID] = useState();
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
@@ -49,13 +50,24 @@ function Employees() {
     handleSearchTextChange(searchText);
   }, [searchText]);
 
+  if (loading) {
+    return (
+      <>
+        <SideBar />
+        <div className="md:ml-64 flex items-center justify-center h-screen ">
+          <TailSpin height="80" width="80" color="#136ABA" />
+        </div>
+      </>
+    );
+  }
   return (
-    <div className="md:ml-64 bg-gray-100">
+    <div className="md:ml-64 bg-gray-100 h-full">
       <SideBar />
+
       <div className="p-6 pb-0 mb-0">
         <h2 className="text-slate-500 text-2xl">Employees</h2>
       </div>
-      <div className="w-full px-6 py-6 mx-auto ">
+      <div className="w-full px-6 py-6 mx-auto h-screen">
         <div className="flex flex-wrap -mx-3 ">
           <div className="flex-none w-full max-w-full px-3">
             <div className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid rounded-sm shadow-lg p-4">
@@ -65,12 +77,12 @@ function Employees() {
                     <thead className="align-bottom w-full ">
                       <tr className="content-between  ">
                         <th className="px-6 py-3 font-bold flex flex-row border-b-solid text-slate-400 opacity-70">
-                          <label class="relative block">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+                          <label className="relative block">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-2">
                               <BsSearch className="text-slate-400" size={20} />
                             </div>
                             <input
-                              class="placeholder placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                              className="placeholder placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                               placeholder="rechercher employee..."
                               value={searchText}
                               onChange={(e) => setSearchText(e.target.value)}
@@ -78,6 +90,7 @@ function Employees() {
                             />
                           </label>
                         </th>
+
                         <th></th>
                         <th></th>
                         <th>
@@ -116,9 +129,7 @@ function Employees() {
 
                     <tbody>
                       {data.map((employee) => (
-                        //<Link to={`/employee/${employee.id}`}>
                         <ListEmployee employee={employee} key={employee.id} />
-                        //</Link>
                       ))}
                     </tbody>
                   </table>

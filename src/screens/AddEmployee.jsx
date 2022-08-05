@@ -5,12 +5,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import FormInputField from "../components/SimpleInputField";
-import { useForm } from "../components/hooks/useForm";
 import avatar from "../img/employee.png";
 import { ToastContainer, toast } from "react-toastify";
 import Moment from "moment";
+
 function AddEmployee() {
-  const [values, setValues] = useForm({
+  const [values, setValues] = useState({
     lastname: "",
     firstname: "",
     gender: "Femme",
@@ -19,7 +19,7 @@ function AddEmployee() {
     phone_number: "",
     matricul: "",
     password: "",
-    employee_since: Moment().format(),
+    employee_since: Moment(new Date()).format("YYYY-MM-DD"),
     holiday: 0,
     start_time: "08:00",
     end_time: "18:00",
@@ -34,7 +34,23 @@ function AddEmployee() {
     console.log(values);
   }, [formErrors, values]);
 
-  const clearForm = () => {};
+  const clearForm = () => {
+    setValues({
+      lastname: "",
+      firstname: "",
+      gender: "Femme",
+      city: "",
+      date_of_birth: "",
+      phone_number: "",
+      matricul: "",
+      password: "",
+      employee_since: Moment(new Date()).format("YYYY-MM-DD"),
+      holiday: 0,
+      start_time: "08:00",
+      end_time: "18:00",
+      profile_IMG: "defaulIMG",
+    });
+  };
 
   const notify = (msg) => toast.warning(msg);
 
@@ -88,6 +104,7 @@ function AddEmployee() {
             position: "top-right",
             theme: "colored",
           });
+          clearForm();
           navigate("/employees", { replace: true });
         }
       } catch (ex) {
@@ -95,6 +112,22 @@ function AddEmployee() {
       }
     }
   };
+
+  //  convert files to base64 :use of the JavaScript FileReader which has a readAsDataURL method that reads the binary data and encodes it as a base64 data URL
+  async function convertToBase64(file) {
+    let promise = new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+    let result = await promise;
+    return result;
+  }
 
   return (
     <>
@@ -141,7 +174,12 @@ function AddEmployee() {
                         label="Image"
                         name="profile_IMG"
                         accept=".jpeg, .png, .jpg"
-                        onChange={(e) => setValues(e)}
+                        onChange={(e) =>
+                          setValues({
+                            ...values,
+                            [e.target.name]: convertToBase64(e.target.files[0]),
+                          })
+                        }
                         className="flex w-full text-transparent hover:text-bg-my-sky-blue
       file:py-2 file:px-4
        file:border-0
@@ -169,7 +207,12 @@ function AddEmployee() {
                         value={values.phone_number}
                         name="phone_number"
                         type="text"
-                        action={(e) => setValues(e)}
+                        action={(e) =>
+                          setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                     </div>
 
@@ -183,7 +226,12 @@ function AddEmployee() {
                         value={values.lastname}
                         name="lastname"
                         type="text"
-                        action={(e) => setValues(e)}
+                        action={(e) =>
+                          setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                     </div>
                     <div>
@@ -194,7 +242,12 @@ function AddEmployee() {
                         value={values.firstname}
                         name="firstname"
                         type="text"
-                        action={(e) => setValues(e)}
+                        action={(e) =>
+                          setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                     </div>
 
@@ -212,7 +265,12 @@ function AddEmployee() {
                           <select
                             value={values.gender}
                             name="gender"
-                            onChange={(e) => setValues(e)}
+                            onChange={(e) =>
+                              setValues({
+                                ...values,
+                                [e.target.name]: e.target.value,
+                              })
+                            }
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-state"
                           >
@@ -237,7 +295,12 @@ function AddEmployee() {
                           value={values.city}
                           name="city"
                           type="text"
-                          action={(e) => setValues(e)}
+                          action={(e) =>
+                            setValues({
+                              ...values,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -247,7 +310,12 @@ function AddEmployee() {
                           value={values.date_of_birth}
                           name="date_of_birth"
                           type="date"
-                          action={(e) => setValues(e)}
+                          action={(e) =>
+                            setValues({
+                              ...values,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
                         />
                       </div>
                     </div>
@@ -269,7 +337,12 @@ function AddEmployee() {
                           value={values.start_time}
                           name="start_time"
                           type="time"
-                          action={(e) => setValues(e)}
+                          action={(e) =>
+                            setValues({
+                              ...values,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
                         />
                       </div>
                     </div>
@@ -284,7 +357,12 @@ function AddEmployee() {
                           value={values.end_time}
                           name="end_time"
                           type="time"
-                          action={(e) => setValues(e)}
+                          action={(e) =>
+                            setValues({
+                              ...values,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
                         />
                       </div>
                     </div>
@@ -306,7 +384,12 @@ function AddEmployee() {
                         value={values.matricul}
                         name="matricul"
                         type="text"
-                        action={(e) => setValues(e)}
+                        action={(e) =>
+                          setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                     </div>
                     <div>
@@ -316,7 +399,12 @@ function AddEmployee() {
                         value={values.password}
                         name="password"
                         type="text"
-                        action={(e) => setValues(e)}
+                        action={(e) =>
+                          setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                     </div>
 
@@ -327,7 +415,12 @@ function AddEmployee() {
                         value={values.employee_since}
                         name="employee_since"
                         type="date"
-                        action={(e) => setValues(e)}
+                        action={(e) =>
+                          setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                     </div>
                     <div>
@@ -341,7 +434,12 @@ function AddEmployee() {
                         <select
                           value={values.holiday}
                           name="holiday"
-                          onChange={(e) => setValues(e)}
+                          onChange={(e) =>
+                            setValues({
+                              ...values,
+                              [e.target.name]: e.target.value,
+                            })
+                          }
                           className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-state"
                         >
