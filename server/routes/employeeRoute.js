@@ -10,8 +10,29 @@ const schema = joi.object({
   password: joi.string().required(),
 });
 
-router.post("/", verifyEmployee, (req, res) => {
+router.post("/", verifyEmployee, async (req, res) => {
   // TODO: update user status from "absent" => "present"
+
+  // console.log(req.user.dataValues.id);
+  const { id } = req.user.dataValues;
+
+  const employee = await User.findByPk(id);
+  if (!employee)
+    return res
+      .status(404)
+      .json({ message: "employee not found", status: false });
+
+  await employee.update(
+    {
+      status: "present",
+    },
+    {
+      where: { id },
+    }
+  );
+  const checkedIN = await employee.save();
+
+  res.json(checkedIN);
   // TODO: create "pointage" row if the user presence status have changed
   // TODO: refresh user counter
 

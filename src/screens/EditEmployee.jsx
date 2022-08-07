@@ -28,8 +28,6 @@ function EditEmployee() {
     profile_IMG: data.profile_IMG,
   });
   const [formErrors, setFormErrors] = useState({});
-  const [employeeData, setEmployeeData] = useState();
-  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
