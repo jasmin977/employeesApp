@@ -1,9 +1,14 @@
 const path = require("path");
-const express = require("express");
+require("express-async-errors");
+
 require("dotenv").config({ path: path.join(__dirname, "config", ".env") });
+
+const express = require("express");
+
 const debug = require("debug")("startup");
 
 const app = express();
+
 require("./start/startup")(app);
 require("./DB/database");
 

@@ -4,7 +4,9 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("../routes/authRoutes");
 const adminRoute = require("../routes/adminRoute");
 const { verifyToken } = require("../middlewares/authMiddleware");
+const errorHandler = require("../middlewares/errorHandler");
 const bodyParser = require("body-parser");
+
 module.exports = (app) => {
   // app.use(
   //     cors({
@@ -26,4 +28,6 @@ module.exports = (app) => {
   // routes
   app.use("/api/auth", authRoutes);
   app.use("/api/admin", adminRoute);
+
+  app.use(errorHandler);
 };

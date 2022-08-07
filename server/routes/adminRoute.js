@@ -16,7 +16,6 @@ const schema = Joi.object({
   holiday: Joi.number().required(),
   city: Joi.string().required(),
   profile_IMG: Joi.string().required(),
-
   gender: Joi.string().required(),
   password: Joi.string().required(),
 });
@@ -37,15 +36,16 @@ route.get("/", async (req, res) => {
     return res.json(employee);
   }
 });
+
 route.post("/", async (req, res) => {
   const { error, value } = schema.validate(req.body);
-  debug(error);
   if (error) return res.status(400).json({ message: error.details[0].message });
   const salt = await bcrypt.genSalt(10);
   if (!salt) throw Error("Something went wrong with bcrypt");
 
   const hash = await bcrypt.hash(value.password, salt);
   if (!hash) throw Error("Something went wrong hashing the password");
+
   const user = await User.create({
     ...value,
     password: hash,
@@ -54,6 +54,7 @@ route.post("/", async (req, res) => {
 
   res.json(user);
 });
+
 route.put("/:id", async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "invalid id" });
@@ -75,9 +76,11 @@ route.put("/:id", async (req, res) => {
 
   res.json(updatedEmployee);
 });
+
 route.delete("/:id", async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "invalid id" });
+
   const count = await User.destroy({ where: { id: id } });
 
   if (!count)
