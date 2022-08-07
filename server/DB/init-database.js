@@ -15,10 +15,10 @@ const Admin = require("../models/Admin");
 const employees = require("../data/employees.json");
 
 async function initDB() {
-  console.log("Creating database");
+  debug("Creating database");
   await sequelize.sync({ force: true }); //delete it if its already exits
 
-  console.log("Creating our beloved admin");
+  debug("Creating our beloved admin");
   const password = "password";
   const salt = await bcrypt.genSalt(10);
   if (!salt) throw Error("Something went wrong with bcrypt");
@@ -26,15 +26,23 @@ async function initDB() {
   const hash = await bcrypt.hash(password, salt);
   if (!hash) throw Error("Something went wrong hashing the password");
 
-  console.log("uploading data");
+  debug("uploading data");
   await Admin.create({
     name: "adminadmin",
     admin: true,
     email: "bayasmin0@gmail.com",
     password: hash, // the hashed password
   });
+
+  for (let i = 0; i < employees.length; i++) {
+    const salt = await bcrypt.genSalt(10);
+    if (!salt) throw Error("Something went wrong with bcrypt");
+    const hash = await bcrypt.hash(employees[i].password, salt);
+    if (!hash) throw Error("Something went wrong hashing the password");
+    employees[i].password = hash;
+  }
   await Employee.bulkCreate(employees);
-  console.log("dataBase is ready ✅");
+  debug("dataBase is ready ✅");
 }
 
 initDB();

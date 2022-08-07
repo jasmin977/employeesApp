@@ -62,6 +62,11 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  status: {
+    type: DataTypes.ENUM,
+    values: ["present", "absent"],
+    default: "absent",
+  },
 });
 
 module.exports = User;

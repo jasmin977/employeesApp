@@ -38,7 +38,6 @@ route.get("/", async (req, res) => {
 });
 
 route.post("/", async (req, res) => {
-  debug("testing enpoint");
   const { error, value } = schema.validate(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
@@ -69,9 +68,7 @@ route.put("/:id", async (req, res) => {
       .json({ message: "employee not found", status: false });
 
   const { error, value } = schema.validate(req.body);
-  debug(value);
   delete value.password;
-  debug(value);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   await employee.update(value);
