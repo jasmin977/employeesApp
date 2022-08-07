@@ -37,7 +37,7 @@ module.exports.verifyEmployee = async (req, res, next) => {
       if (!decodedToken) {
         res.status(401).json({ status: false });
       } else {
-        const admin = await User.findOne({ where: { id: decodedToken.id } });
+        const admin = await User.findByPk(decodedToken.id);
         if (!admin) return res.json({ status: false, message: "unauthorized" });
         req.user = admin;
         next(); //to contenue to the next middelware

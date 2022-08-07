@@ -65,7 +65,7 @@ const User = sequelize.define("user", {
   status: {
     type: DataTypes.ENUM,
     values: ["present", "absent"],
-    default: "absent",
+    defaultValue: "absent",
   },
 });
 
