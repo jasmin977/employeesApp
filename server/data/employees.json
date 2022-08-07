@@ -11,8 +11,7 @@
     "date_of_birth": "1990-12-16",
     "holiday": 1,
     "city": "bourjin",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "active",
+    "profile_IMG": "https://randomuser.me/api/portraits/women/46.jpg",
     "password": "123456"
   },
   {
@@ -27,8 +26,7 @@
     "date_of_birth": "1990-10-16",
     "holiday": 5,
     "city": "msaken",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "active",
+    "profile_IMG": "https://randomuser.me/api/portraits/women/17.jpg",
     "password": "123456"
   },
   {
@@ -43,8 +41,7 @@
     "employee_since": "2021-05-07",
     "holiday": 3,
     "city": "msaken",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "active",
+    "profile_IMG": "https://randomuser.me/api/portraits/women/8.jpg",
     "password": "123456"
   },
   {
@@ -59,8 +56,7 @@
     "date_of_birth": "1990-12-16",
     "holiday": 1,
     "city": "msaken",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "absent",
+    "profile_IMG": "https://randomuser.me/api/portraits/women/59.jpg",
     "password": "123456"
   },
   {
@@ -75,8 +71,7 @@
     "date_of_birth": "1990-12-16",
     "holiday": 6,
     "city": "Gwenborough",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "active",
+    "profile_IMG": "https://randomuser.me/api/portraits/men/44.jpg",
     "password": "123456"
   },
   {
@@ -91,8 +86,7 @@
     "date_of_birth": "1990-12-16",
     "holiday": 3,
     "city": "Gwenborough",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "active",
+    "profile_IMG": "https://randomuser.me/api/portraits/men/47.jpg",
     "password": "123456"
   },
   {
@@ -107,8 +101,8 @@
     "date_of_birth": "1990-12-16",
     "holiday": 1,
     "city": "knais",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "active",
+    "profile_IMG": "https://randomuser.me/api/portraits/women/13.jpg",
+ 
     "password": "123456"
   },
   {
@@ -123,8 +117,7 @@
     "date_of_birth": "1990-12-16",
     "holiday": 0,
     "city": "msaken",
-    "profile_IMG": "https://via.placeholder.com/600/92c952",
-    "status": "active",
+    "profile_IMG": "https://randomuser.me/api/portraits/women/28.jpg",
     "password": "123456"
   }
 ]

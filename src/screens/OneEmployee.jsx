@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import SideBar from "../components/SideBar";
 import axios from "axios";
 import { TailSpin } from "react-loader-spinner";
 import avatar from "../img/employee.png";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { AiOutlineEdit } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import { Button } from "@mui/material";
+import { DeletePopup, SideBar } from "../components";
 function Employee() {
   const [employeeData, setEmployeeData] = useState();
+  const [popupBTN, setPopupBTN] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const days = {
@@ -259,6 +259,18 @@ function Employee() {
                 </div>
               </div>
             </div>
+            <button
+              onClick={() => setPopupBTN(true)}
+              className=" w-fit rounded bg-red-500 font-medium self-end hover:bg-red-400
+                  text-white text-sm px-3 py-2  mx-4 mb-4 justify-evenly"
+            >
+              <p className="text-base">supprimer</p>
+            </button>
+            <DeletePopup
+              trigger={popupBTN}
+              setTrigger={setPopupBTN}
+              id={id}
+            ></DeletePopup>
           </div>
         </div>
       </div>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import SideBar from "../components/SideBar";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { TailSpin } from "react-loader-spinner";
 import { useNavigate, useLocation } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import FormInputField from "../components/SimpleInputField";
+import { FormInputField, SideBar } from "../components";
 import avatar from "../img/employee.png";
 import { ToastContainer, toast } from "react-toastify";
 import Moment from "moment";
@@ -110,8 +109,8 @@ function EditEmployee() {
             position: "top-right",
             theme: "colored",
           });
-          clearForm();
-          // navigate("/employees", { replace: true });
+          // clearForm();
+          navigate(`/employee/${data.id}`);
         }
       } catch (ex) {
         toast.error(ex.response.data.message);
@@ -495,6 +494,7 @@ function EditEmployee() {
                   </div>
                 </div>
               </form>
+
               <ToastContainer
                 position="top-right"
                 autoClose={5000}

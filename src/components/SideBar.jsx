@@ -5,7 +5,7 @@ import { MdOutlineSpaceDashboard, MdOutlineTask } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import { AiOutlineFieldTime } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
-import Clock from "../components/clock";
+import { Clock } from "../components";
 
 function SideBar() {
   const [showSidebar, setShowSidebar] = useState("-left-64");

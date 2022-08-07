@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import SideBar from "../components/SideBar";
+import { SideBar } from "../components";
 
-import {
- useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -14,15 +12,11 @@ export default function Dashboard() {
     removeCookie("token");
     navigate("/login");
   };
-  return( 
-   < div className="md:ml-64">
-     
-  <SideBar/>
-  <div>dashboard</div>
-   {/** <button onClick={logOut}>Log out</button>*/}  
+  return (
+    <div className="md:ml-64">
+      <SideBar />
+      <div>dashboard</div>
+      {/** <button onClick={logOut}>Log out</button>*/}
     </div>
-     
-     )
-   
-  
+  );
 }

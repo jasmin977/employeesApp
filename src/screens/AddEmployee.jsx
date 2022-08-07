@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import SideBar from "../components/SideBar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import FormInputField from "../components/SimpleInputField";
+import { FormInputField, SideBar } from "../components";
 import avatar from "../img/employee.png";
 import { ToastContainer, toast } from "react-toastify";
 import Moment from "moment";

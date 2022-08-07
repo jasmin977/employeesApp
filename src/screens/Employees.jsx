@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ListEmployee from "../components/ListEmployee";
-import SideBar from "../components/SideBar";
+import { ListEmployee, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
-import { Navigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { FiUserPlus } from "react-icons/fi";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 function Employees() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [employeeID, setEmployeeID] = useState();
+
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {

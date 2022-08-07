@@ -10,7 +10,6 @@ import {
 import Login from "./screens/login";
 import Dashboard from "./screens/dashboard";
 import Employees from "./screens/Employees";
-import SideBar from "./components/SideBar";
 
 import { AuthRoute } from "./components";
 import TimeSheets from "./screens/TimeSheets";
