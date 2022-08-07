@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("../routes/authRoutes");
 const adminRoute = require("../routes/adminRoute");
 const { verifyToken } = require("../middlewares/authMiddleware");
-const errorHandler = require("../middlewares/errorHandler");
+const { errorHandler } = require("../middlewares/errorHandler");
 const bodyParser = require("body-parser");
 
 module.exports = (app) => {
