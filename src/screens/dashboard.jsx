@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios from "axios";
+import { SideBar } from "../components";
+
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -12,11 +13,10 @@ export default function Dashboard() {
     navigate("/login");
   };
   return (
-    <>
-      <div>
-        <h1>home Page</h1>
-        <button onClick={logOut}>Log out</button>
-      </div>
-    </>
+    <div className="md:ml-64">
+      <SideBar />
+      <div>dashboard</div>
+      {/** <button onClick={logOut}>Log out</button>*/}
+    </div>
   );
 }
