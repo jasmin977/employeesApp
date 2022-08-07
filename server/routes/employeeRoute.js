@@ -3,6 +3,7 @@ const User = require("../models/Employee");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const joi = require("joi");
+const Pointage = require("../models/Pointage");
 const router = require("express").Router();
 
 const schema = joi.object({
@@ -23,7 +24,10 @@ router.post("/", verifyEmployee, async (req, res) => {
   const checkedIN = await req.user.save();
 
   // TODO: create "pointage" row if the user presence status have changed
-
+  console.log(req.user.id);
+  await Pointage.create({
+    userId: req.user.id,
+  });
   // TODO: refresh user counter
 
   res.json(checkedIN);
