@@ -5,9 +5,9 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 
 const schema = Joi.object({
-  lastname: Joi.string().alphanum().min(3).max(30).required(),
-  firstname: Joi.string().alphanum().min(3).max(30).required(),
-  matricul: Joi.string().alphanum().min(3).max(30).required(),
+  lastname: Joi.string().min(3).max(30).required(),
+  firstname: Joi.string().min(3).max(30).required(),
+  matricul: Joi.string().alphanum().length(10).required(),
   phone_number: Joi.number().required(),
   start_time: Joi.string().required(),
   end_time: Joi.string().required(),
@@ -38,8 +38,10 @@ route.get("/", async (req, res) => {
 });
 
 route.post("/", async (req, res) => {
+  debug("testing enpoint");
   const { error, value } = schema.validate(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
+
   const salt = await bcrypt.genSalt(10);
   if (!salt) throw Error("Something went wrong with bcrypt");
 
@@ -50,6 +52,7 @@ route.post("/", async (req, res) => {
     ...value,
     password: hash,
   });
+
   if (!user) return res.json({ message: "insert went wrong" });
 
   res.json(user);

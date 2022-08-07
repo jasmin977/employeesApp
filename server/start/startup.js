@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 const authRoutes = require("../routes/authRoutes");
 const adminRoute = require("../routes/adminRoute");
 const { verifyToken } = require("../middlewares/authMiddleware");
@@ -21,6 +22,7 @@ module.exports = (app) => {
 
   app.use(cookieParser());
   app.use(express.json());
+  app.use(morgan("tiny"));
 
   // auth middleware
   app.use("/api/admin", verifyToken);
