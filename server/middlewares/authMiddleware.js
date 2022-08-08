@@ -3,10 +3,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/Employee");
 const MY_SECRET = process.env.MY_SECRET;
 
-//Middelware function
-//that gonna be added to routes
-//that wanna be protected
-
 module.exports.verifyToken = async (req, res, next) => {
   const { token } = req.cookies;
   try {
@@ -30,7 +26,6 @@ module.exports.verifyToken = async (req, res, next) => {
 };
 module.exports.verifyEmployee = async (req, res, next) => {
   const { token } = req.headers;
-  console.log(req.headers);
   try {
     if (token) {
       const decodedToken = jwt.verify(token, MY_SECRET);

@@ -7,6 +7,9 @@ const Pointage = sequelize.define("pointage", {
     autoIncrement: true,
     primaryKey: true,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+  },
   arrival: {
     type: DataTypes.TIME,
     allowNull: false,

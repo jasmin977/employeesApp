@@ -5,32 +5,75 @@ const jwt = require("jsonwebtoken");
 const joi = require("joi");
 const Pointage = require("../models/Pointage");
 const router = require("express").Router();
+const debug = require("debug")("routes:admin");
 
 const schema = joi.object({
   matricul: joi.string().alphanum().length(10).required(),
   password: joi.string().required(),
 });
 
+let employesState = [];
+const CHECK_TIMEOUT = 1000 * 60;
+const CHECK_INTERVAL = 1000;
+
+setInterval(() => {
+  // decrement employee counter and delete employee with null or negative counters
+  for (let idx = 0; idx < employesState.length; idx++) {
+    const item = employesState[idx];
+    employesState[idx].counter -= CHECK_INTERVAL;
+    // handle if Employee have a negative counter (delete them from the cache, switch their status back to absent
+    // and update the pointage departure)
+    if (employesState[idx].counter <= 0) {
+      employesState = employesState.filter((_, i) => i !== idx);
+      User.update(
+        { status: "absent" },
+        {
+          where: {
+            id: item.userId,
+          },
+        }
+      );
+
+      const time = new Date();
+      const timeString = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+
+      Pointage.update(
+        { departure: timeString },
+        {
+          where: {
+            userId: item.userId,
+            departure: null,
+          },
+        }
+      );
+    }
+  }
+  // debug(employesState);
+}, CHECK_INTERVAL);
+
 router.get("/", verifyEmployee, async (req, res) => {
   res.status(200).json(req.user);
 });
 
 router.post("/", verifyEmployee, async (req, res) => {
-  // TODO: update user status from "absent" => "present"
+  const userId = employesState.findIndex((item) => item.userId === req.user.id);
+  if (userId === -1) {
+    await req.user.update({
+      status: "present",
+    });
+    await req.user.save();
 
-  await req.user.update({
-    status: "present",
-  });
-  const checkedIN = await req.user.save();
+    // TODO: create "pointage" row if the user presence status have changed
+    await Pointage.create({
+      userId: req.user.id,
+    });
+    employesState.push({ userId: req.user.id, counter: CHECK_TIMEOUT });
+  } else {
+    // TODO: refresh user counter
+    employesState[userId].counter = CHECK_TIMEOUT;
+  }
 
-  // TODO: create "pointage" row if the user presence status have changed
-  console.log(req.user.id);
-  await Pointage.create({
-    userId: req.user.id,
-  });
-  // TODO: refresh user counter
-
-  res.json(checkedIN);
+  res.json({ message: "you are checked in 😉" });
 });
 
 router.post("/login", async (req, res) => {

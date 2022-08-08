@@ -21,6 +21,7 @@ async function initDB() {
     onDelete: "CASCADE",
   });
   Pointage.belongsTo(Employee);
+  Employee.hasMany(Pointage);
 
   await sequelize.sync({ force: true }); //delete it if its already exits
 
