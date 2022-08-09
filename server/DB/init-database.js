@@ -7,20 +7,21 @@ const bcrypt = require("bcrypt");
 const debug = require("debug")("initDB");
 
 // uno model :'D
-const User = require("../models/Employee");
+const Employee = require("../models/Employee");
 const Admin = require("../models/Admin");
 const Pointage = require("../models/Pointage");
 // fake data
 const employees = require("../data/employees.json");
-const { DataTypes } = require("sequelize");
 
 async function initDB() {
   debug("Creating database");
 
-  User.hasMany(Pointage, {
+  Employee.hasMany(Pointage, {
     onDelete: "CASCADE",
   });
-  Pointage.belongsTo(User);
+
+  Pointage.belongsTo(Employee);
+  Employee.hasMany(Pointage);
 
   await sequelize.sync({ force: true }); //delete it if its already exits
 
@@ -48,7 +49,7 @@ async function initDB() {
     employees[i].password = hash;
   }
 
-  await User.bulkCreate(employees);
+  await Employee.bulkCreate(employees);
   debug("dataBase is ready ✅");
 }
 
