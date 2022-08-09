@@ -1,5 +1,4 @@
 const path = require("path");
-
 require("dotenv").config({
   path: path.join(__dirname, "..", "config", ".env"),
 });
@@ -8,19 +7,20 @@ const bcrypt = require("bcrypt");
 const debug = require("debug")("initDB");
 
 // uno model :'D
-const Employee = require("../models/Employee");
+const User = require("../models/Employee");
 const Admin = require("../models/Admin");
 const Pointage = require("../models/Pointage");
 // fake data
 const employees = require("../data/employees.json");
+const { DataTypes } = require("sequelize");
 
 async function initDB() {
   debug("Creating database");
 
-  Employee.hasMany(Pointage, {
+  User.hasMany(Pointage, {
     onDelete: "CASCADE",
   });
-  Pointage.belongsTo(Employee);
+  Pointage.belongsTo(User);
 
   await sequelize.sync({ force: true }); //delete it if its already exits
 
@@ -48,7 +48,7 @@ async function initDB() {
     employees[i].password = hash;
   }
 
-  await Employee.bulkCreate(employees);
+  await User.bulkCreate(employees);
   debug("dataBase is ready ✅");
 }
 
