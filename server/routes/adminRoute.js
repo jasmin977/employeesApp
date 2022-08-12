@@ -3,14 +3,9 @@ const User = require("../models/Employee");
 const route = require("express").Router();
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
-const Pointage = require("../models/Pointage");
 const sequelize = require("../DB/database");
-const {
-  minutesToString,
-  stringToMinutes,
-  formatDate,
-} = require("../utilities/format-time");
-const getPointagePerUser = require("../utilities/normalise-pointage");
+
+const getTimesheet = require("../utilities/normalise-pointage");
 
 const schema = Joi.object({
   lastname: Joi.string().min(3).max(30).required(),
@@ -100,111 +95,25 @@ route.delete("/:id", async (req, res) => {
 // @desc get timesheet for every employee
 // @access Admin
 route.get("/timesheet", async (req, res) => {
-  const [results] =
-    await sequelize.query(`select userId,arrival, departure, date, 
+  const { id } = req.query;
+  let results = null;
+  if (id)
+    [results] = await sequelize.query(
+      `select userId,arrival, departure, date, 
+  firstname, lastname, phone_number, profile_IMG, start_time, end_time  
+  from pointages as p, users as u 
+  where date="2022-08-08" and userId = u.id and userId = ? order by userId`,
+      {
+        replacements: [id],
+      }
+    );
+  else
+    [results] = await sequelize.query(`select userId,arrival, departure, date, 
   firstname, lastname, phone_number, profile_IMG, start_time, end_time  
   from pointages as p, users as u 
   where date="2022-08-08" and userId = u.id order by userId`);
 
-  const usersList = [];
-
-  const START_TIME_MIN = 7 * 60;
-  const END_TIME_MIN = 24 * 60;
-
-  const pointagePerEmployee = getPointagePerUser(results);
-
-  pointagePerEmployee.forEach((element) => {
-    let startInterval = START_TIME_MIN;
-    let endInterval = startInterval + 60;
-    let currentTime = startInterval;
-    let prevStatus = null;
-    let thisHour = [];
-
-    const getIntervalStatus = (thisHour, start, end, status) => {
-      const COLOR_STATUS = {
-        no_status: "gray",
-        present: "green",
-        absent: "red",
-        late: "orange",
-      };
-      if (Object.keys(COLOR_STATUS).indexOf(status) === -1)
-        throw Error("invalid status");
-      if (start < end) {
-        thisHour.push({
-          start: minutesToString(start),
-          end: minutesToString(end),
-          status: status,
-          color: COLOR_STATUS[status],
-        });
-        prevStatus = status;
-        currentTime = end;
-      }
-    };
-
-    let isNewPoitage = false;
-    const isFirstPointage = true;
-    usersList.push({ ...element.user, timesheet: [] });
-    element.pointage.forEach((item) => {
-      let employeeArrival = stringToMinutes(item.arrival);
-      let employeeDeparture = stringToMinutes(item.departure);
-      let shouldStartTime = stringToMinutes(item.start_time);
-
-      // loop throw hours
-      while (employeeDeparture !== currentTime) {
-        if (
-          isFirstPointage &&
-          prevStatus !== "present" &&
-          prevStatus !== "absent"
-        ) {
-          getIntervalStatus(
-            thisHour,
-            currentTime,
-            Math.min(employeeArrival, endInterval, shouldStartTime),
-            "no_status"
-          );
-          getIntervalStatus(
-            thisHour,
-            currentTime,
-            Math.min(employeeArrival, endInterval),
-            "late"
-          );
-        }
-
-        if (isNewPoitage) {
-          getIntervalStatus(
-            thisHour,
-            currentTime,
-            Math.min(employeeArrival, endInterval),
-            "absent"
-          );
-          isNewPoitage = currentTime !== employeeArrival;
-        } else {
-          getIntervalStatus(
-            thisHour,
-            currentTime,
-            Math.min(employeeDeparture, endInterval),
-            "present"
-          );
-          isNewPoitage = currentTime === employeeDeparture;
-        }
-        if (currentTime % 60 === 0) {
-          usersList[usersList.length - 1].timesheet.push(thisHour);
-          startInterval = endInterval;
-          endInterval = startInterval + 60;
-          thisHour = [];
-        }
-      }
-    });
-    getIntervalStatus(thisHour, currentTime, endInterval, "no_status");
-    usersList[usersList.length - 1].timesheet.push(thisHour);
-    while (currentTime !== END_TIME_MIN) {
-      thisHour = [];
-      startInterval = endInterval;
-      endInterval = startInterval + 60;
-      getIntervalStatus(thisHour, currentTime, endInterval, "no_status");
-      usersList[usersList.length - 1].timesheet.push(thisHour);
-    }
-  });
+  const usersList = getTimesheet(results);
 
   res.send(usersList);
 });
