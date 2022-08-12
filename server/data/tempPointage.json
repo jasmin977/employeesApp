@@ -1,0 +1,44 @@
+[
+  {
+    "arrival": "08:30:12",
+    "departure": "12:45:12",
+    "date": "2022-08-07",
+    "userId": 2
+  },
+  {
+    "arrival": "13:10:12",
+    "departure": "16:45:12",
+    "date": "2022-08-07",
+    "userId": 2
+  },
+  {
+    "arrival": "08:15:12",
+    "departure": "10:45:12",
+    "date": "2022-08-08",
+    "userId": 2
+  },
+  {
+    "arrival": "11:10:12",
+    "departure": "15:45:12",
+    "date": "2022-08-08",
+    "userId": 2
+  },
+  {
+    "arrival": "08:15:12",
+    "departure": "10:45:12",
+    "date": "2022-08-08",
+    "userId": 3
+  },
+  {
+    "arrival": "15:55:12",
+    "departure": "18:45:12",
+    "date": "2022-08-08",
+    "userId": 2
+  },
+  {
+    "arrival": "11:10:12",
+    "departure": "17:45:12",
+    "date": "2022-08-08",
+    "userId": 3
+  }
+]

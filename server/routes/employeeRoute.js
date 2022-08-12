@@ -48,7 +48,6 @@ setInterval(() => {
       );
     }
   }
-  // debug(employesState);
 }, CHECK_INTERVAL);
 
 router.get("/", verifyEmployee, async (req, res) => {

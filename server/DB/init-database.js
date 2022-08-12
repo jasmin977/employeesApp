@@ -50,6 +50,10 @@ async function initDB() {
   }
 
   await Employee.bulkCreate(employees);
+
+  // TODO: to be deleted
+  await Pointage.bulkCreate(require("../data/tempPointage.json"));
+
   debug("dataBase is ready ✅");
 }
 
