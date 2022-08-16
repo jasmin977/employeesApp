@@ -91,7 +91,7 @@ route.delete("/:id", async (req, res) => {
   return res.status(200).json({ message: "employee deleted succesfully" });
 });
 
-// @route GET /api/admi/timesheet
+// @route GET /api/admin/timesheet
 // @desc get timesheet for every employee
 // @access Admin
 route.get("/timesheet", async (req, res) => {

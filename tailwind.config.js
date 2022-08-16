@@ -6,6 +6,7 @@ module.exports = {
         "my-dark-blue": "rgba(41, 47, 120, 1)",
         "my-sky-blue": "rgba(8, 138, 228, 1)",
         "my-sky-blue-transparent": "rgba(8, 138, 228, 0.3)",
+        yasmin: "red",
       },
     },
   },

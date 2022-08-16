@@ -1,6 +1,19 @@
-p,div {
+/* p,div {
     font-family: 'MyFont';
     src: local('MyFont'), url(./fonts//NanumGothic-Bold.ttf) format('.ttf');
     /* other formats include: 'woff2', 'truetype, 'opentype',
                               'embedded-opentype', and 'svg' */
-  }
+/* } */
+
+@font-face {
+  font-family: "cairo";
+  src: url("./fonts/Cairo/Cairo-VariableFont_wght.ttf");
+}
+
+html {
+  font-family: "cairo";
+}
+
+.interval:hover {
+  height: 0.75rem !important;
+}

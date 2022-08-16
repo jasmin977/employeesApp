@@ -13,6 +13,7 @@ const getPointagePerUser = (results) => {
           lastname: item.lastname,
           phone_number: item.phone_number,
           profile_IMG: item.profile_IMG,
+          total: 0,
         },
         pointage: [],
       });
@@ -36,23 +37,16 @@ const getTimesheet = (results) => {
     let thisHour = [];
 
     const getIntervalStatus = (thisHour, start, end, status) => {
-      const COLOR_STATUS = {
-        no_status: "gray",
-        present: "green",
-        absent: "red",
-        late: "orange",
-      };
-      if (Object.keys(COLOR_STATUS).indexOf(status) === -1)
-        throw Error("invalid status");
       if (start < end) {
         thisHour.push({
           start: minutesToString(start),
           end: minutesToString(end),
           status: status,
-          color: COLOR_STATUS[status],
         });
         prevStatus = status;
         currentTime = end;
+        if (status === "present")
+          usersList[usersList.length - 1].total += end - start;
       }
     };
 
@@ -80,6 +74,12 @@ const getTimesheet = (results) => {
           getIntervalStatus(
             thisHour,
             currentTime,
+            Math.min(endInterval, shouldStartTime),
+            "extra"
+          );
+          getIntervalStatus(
+            thisHour,
+            currentTime,
             Math.min(employeeArrival, endInterval),
             "late"
           );
@@ -100,6 +100,13 @@ const getTimesheet = (results) => {
             Math.min(employeeDeparture, endInterval),
             "present"
           );
+          getIntervalStatus(
+            thisHour,
+            currentTime,
+            Math.min(employeeDeparture, endInterval),
+            "extra"
+          );
+
           isNewPoitage = currentTime === employeeDeparture;
         }
         if (currentTime % 60 === 0) {
@@ -119,6 +126,9 @@ const getTimesheet = (results) => {
       getIntervalStatus(thisHour, currentTime, endInterval, "no_status");
       usersList[usersList.length - 1].timesheet.push(thisHour);
     }
+    usersList[usersList.length - 1].total = minutesToString(
+      usersList[usersList.length - 1].total
+    );
   });
   return usersList;
 };
