@@ -3,6 +3,9 @@ const User = require("../models/Employee");
 const route = require("express").Router();
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
+const sequelize = require("../DB/database");
+
+const getTimesheet = require("../utilities/normalise-pointage");
 
 const schema = Joi.object({
   lastname: Joi.string().min(3).max(30).required(),
@@ -86,6 +89,33 @@ route.delete("/:id", async (req, res) => {
   if (!count)
     return res.status(500).json({ message: "error deleting employee" });
   return res.status(200).json({ message: "employee deleted succesfully" });
+});
+
+// @route GET /api/admi/timesheet
+// @desc get timesheet for every employee
+// @access Admin
+route.get("/timesheet", async (req, res) => {
+  const { id } = req.query;
+  let results = null;
+  if (id)
+    [results] = await sequelize.query(
+      `select userId,arrival, departure, date, 
+  firstname, lastname, phone_number, profile_IMG, start_time, end_time  
+  from pointages as p, users as u 
+  where date="2022-08-08" and userId = u.id and userId = ? order by userId`,
+      {
+        replacements: [id],
+      }
+    );
+  else
+    [results] = await sequelize.query(`select userId,arrival, departure, date, 
+  firstname, lastname, phone_number, profile_IMG, start_time, end_time  
+  from pointages as p, users as u 
+  where date="2022-08-08" and userId = u.id order by userId`);
+
+  const usersList = getTimesheet(results);
+
+  res.send(usersList);
 });
 
 module.exports = route;

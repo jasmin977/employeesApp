@@ -27,7 +27,7 @@ module.exports = (app) => {
   app.use(morgan("tiny"));
 
   // auth middleware
-  app.use("/api/admin", verifyToken);
+  // app.use("/api/admin", verifyToken);
 
   // routes
   app.use("/api/auth", authRoutes);

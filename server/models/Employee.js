@@ -24,11 +24,11 @@ const User = sequelize.define("user", {
     allowNull: true,
   },
   start_time: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
     allowNull: true,
   },
   end_time: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
     allowNull: true,
   },
   date_of_birth: {

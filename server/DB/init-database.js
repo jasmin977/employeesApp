@@ -60,6 +60,9 @@ async function initDB() {
 
   await TODO.bulkCreate(todo);
 
+  // TODO: to be deleted
+  await Pointage.bulkCreate(require("../data/tempPointage.json"));
+
   debug("dataBase is ready ✅");
 }
 
