@@ -6,3 +6,4 @@ export { default as SideBar } from "./SideBar";
 export { default as ListEmployee } from "./ListEmployee";
 export { default as DeletePopup } from "./DeletePopup";
 export { default as ListTimeSheetEmployee } from "./ListTimeSheetEmployee";
+export { default as Card } from "./Card";

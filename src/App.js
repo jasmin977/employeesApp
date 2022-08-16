@@ -15,7 +15,7 @@ import { AuthRoute } from "./components";
 import TimeSheets from "./screens/TimeSheets";
 import Employee from "./screens/OneEmployee";
 import AddEmployee from "./screens/AddEmployee";
-import ToDo from "./screens/ToDo";
+import Tasks from "./screens/Tasks";
 import Calender from "./screens/Calender";
 import EditEmployee from "./screens/EditEmployee";
 
@@ -82,10 +82,10 @@ function App() {
         />
         <Route
           exact
-          path="/todo"
+          path="/tasks"
           element={
             <AuthRoute>
-              <ToDo />
+              <Tasks />
             </AuthRoute>
           }
         />

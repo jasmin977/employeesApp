@@ -56,7 +56,7 @@ function SideBar() {
               </li>
               <li className="rounded-lg mb-1  hover:bg-my-sky-blue-transparent">
                 <NavLink
-                  to="/todo"
+                  to="/tasks"
                   exact="true"
                   className="flex items-center gap-4 text-sm text-white font-medium px-4 py-3 rounded-lg"
                   activeclassname="bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md"

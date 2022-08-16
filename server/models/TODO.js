@@ -1,33 +1,33 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../DB/database");
 
-const Pointage = sequelize.define("pointage", {
+const TODO = sequelize.define("todo", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  userId: {
+  cardTaskId: {
     type: DataTypes.INTEGER,
   },
-  arrival: {
-    type: DataTypes.TIME,
+  text: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  isDone: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  createdAT: {
+    type: "TIMESTAMP",
     allowNull: false,
     defaultValue: DataTypes.NOW,
   },
-  departure: {
-    type: DataTypes.TIME,
-    allowNull: true,
-  },
-  date: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
-  userId: {
+  cardTaskId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
 
-module.exports = Pointage;
+module.exports = TODO;

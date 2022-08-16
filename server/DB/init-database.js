@@ -10,18 +10,25 @@ const debug = require("debug")("initDB");
 const Employee = require("../models/Employee");
 const Admin = require("../models/Admin");
 const Pointage = require("../models/Pointage");
+const TODO = require("../models/TODO");
+const CardTask = require("../models/CardTASK");
 // fake data
 const employees = require("../data/employees.json");
-
+const todo = require("../data/todo.json");
+const cards = require("../data/cards.json");
 async function initDB() {
   debug("Creating database");
 
   Employee.hasMany(Pointage, {
     onDelete: "CASCADE",
   });
-
   Pointage.belongsTo(Employee);
-  Employee.hasMany(Pointage);
+
+  CardTask.hasMany(TODO);
+  CardTask.hasMany(TODO, {
+    onDelete: "CASCADE",
+  });
+  TODO.belongsTo(CardTask);
 
   await sequelize.sync({ force: true }); //delete it if its already exits
 
@@ -48,8 +55,11 @@ async function initDB() {
     if (!hash) throw Error("Something went wrong hashing the password");
     employees[i].password = hash;
   }
-
+  await CardTask.bulkCreate(cards);
   await Employee.bulkCreate(employees);
+
+  await TODO.bulkCreate(todo);
+
   debug("dataBase is ready ✅");
 }
 

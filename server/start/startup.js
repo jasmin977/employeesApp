@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const authRoutes = require("../routes/authRoutes");
 const adminRoute = require("../routes/adminRoute");
 const employeeRoute = require("../routes/employeeRoute");
+const todoRoutes = require("../routes/todoRoute");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const { errorHandler } = require("../middlewares/errorHandler");
 const bodyParser = require("body-parser");
@@ -31,6 +32,7 @@ module.exports = (app) => {
   // routes
   app.use("/api/auth", authRoutes);
   app.use("/api/admin", adminRoute);
+  app.use("/api/task", todoRoutes);
   app.use("/api/employee", employeeRoute);
 
   app.use(errorHandler);
