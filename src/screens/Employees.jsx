@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ListEmployee, SideBar } from "../components";
+import { ListEmployee, SearchWarpper, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { FiUserPlus } from "react-icons/fi";
 import { ToastContainer } from "react-toastify";
+import { Button, SearchInput } from "../components/atomic";
 function Employees() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -72,47 +73,23 @@ function Employees() {
             <div className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid rounded-sm shadow-lg p-4">
               <div className="flex-auto px-0 pt-0 pb-2">
                 <div>
+                  <SearchWarpper>
+                    <SearchInput
+                      placeholder="rechercher employee..."
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                    />
+
+                    <Link to="/addemployee">
+                      <Button text="ajouter employé" Icon={FiUserPlus} />
+                    </Link>
+                  </SearchWarpper>
                   <table className="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                     <thead className="align-bottom w-full ">
-                      <tr className="content-between  ">
-                        <th className="px-6 py-3 font-bold flex flex-row border-b-solid text-slate-400 opacity-70">
-                          <label className="relative block">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-2">
-                              <BsSearch className="text-slate-400" size={20} />
-                            </div>
-                            <input
-                              className="placeholder placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
-                              placeholder="rechercher employee..."
-                              value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
-                              type="text"
-                            />
-                          </label>
-                        </th>
-
-                        <th></th>
-                        <th></th>
-                        <th>
-                          <Link to="/addemployee">
-                            <button
-                              className="rounded bg-gradient-to-t flex flex-row  from-my-dark-blue to-my-sky-blue font-medium self-end
-              w-full text-white text-sm py-2  my-3.5 justify-evenly"
-                            >
-                              <FiUserPlus
-                                color="white"
-                                size={25}
-                                className="self-center mx-2"
-                              />
-                              <p className="text-base">ajouter employé</p>{" "}
-                            </button>
-                          </Link>
-                        </th>
-                      </tr>
                       <tr className="bg-[#E1E5F0] ">
-                        <div className="flex flex-col px-6 pt-2 font-bold text-left uppercase align-middle border-b border-gray-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap justify-center ">
-                          <th className="text-[#6d6c6c]">employee</th>
-                          <th className="text-[#616060]">{data.length}</th>
-                        </div>
+                        <th className="px-6 py-5 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-[#6d6c6c]">
+                          employee ({data.length})
+                        </th>
                         <th className="px-6 py-5 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-[#6d6c6c] ">
                           matricul
                         </th>

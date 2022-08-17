@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ListTimeSheetEmployee, SearchBar, SideBar } from "../components";
+import { ListTimeSheetEmployee, SearchWarpper, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
 import { ToastContainer } from "react-toastify";
+import { Button, SearchInput } from "../components/atomic";
 
 const timeline = new Array(17).fill(0);
 
@@ -74,66 +75,41 @@ function TimeSheets() {
             <div className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid rounded-sm shadow-lg p-4">
               <div className="flex-auto px-0 pt-0 pb-2">
                 <div>
-                  <SearchBar
-                    action={(e) => setSearchText(e.target.value)}
-                    value={searchText}
-                  />
-
+                  <SearchWarpper>
+                    <SearchInput
+                      onChange={(e) => setSearchText(e.target.value)}
+                      value={searchText}
+                      placeholder="rechercher employee..."
+                    />
+                    <Button text="exporter" />
+                  </SearchWarpper>
                   <div className="table_head">
-                    <th className="font-medium capitalize text-[#6d6c6c]">
+                    <div className="font-medium capitalize text-[#6d6c6c]">
                       Employee
-                    </th>
+                    </div>
                     {timeline.map((_, idx) => (
-                      <th
+                      <div
                         key={`thead_time_${idx}`}
                         className="text-xs font-thin text-[#6d6c6c] "
                       >
                         {("0" + ((7 + idx) % 24)).slice(-2)}:00
-                      </th>
+                      </div>
                     ))}
                     <div></div>
-                    <th className="font-medium capitalize text-[#6d6c6c]">
+                    <div className="font-medium capitalize text-[#6d6c6c]">
                       arrivé
-                    </th>
-                    <th className="font-medium capitalize text-[#6d6c6c]">
+                    </div>
+                    <div className="font-medium capitalize text-[#6d6c6c]">
                       total
-                    </th>
+                    </div>
                   </div>
-                  {/* <table className="items-center w-full mb-0 align-top border-gray-200 text-slate-500"> */}
-                  {/* <thead className="w-full">
-                      <tr className="bg-[#E1E5F0]">
-                        <th className="font-medium uppercase py-4 text-[#6d6c6c] ">
-                          Employee
-                        </th>
-                        {timeline.map((_, idx) => (
-                          <th
-                            key={`thead_time_${idx}`}
-                            className="text-sm font-thin py-4 text-[#6d6c6c] "
-                          >
-                            {("0" + (7 + idx)).slice(-2)}:00
-                          </th>
-                        ))}
-                        <th className="font-medium uppercase py-4 text-[#6d6c6c] ">
-                          arrivé
-                        </th>
-                        <th className="font-medium uppercase py-4 text-[#6d6c6c] ">
-                          total
-                        </th>
-                      </tr>
-                    </thead> */}
-
-                  {
-                    timesheet &&
-                      // <tbody>
-                      timesheet.map((employee) => (
-                        <ListTimeSheetEmployee
-                          employee={employee}
-                          key={employee.userId}
-                        />
-                      ))
-                    // </tbody>
-                  }
-                  {/* </table> */}
+                  {timesheet &&
+                    timesheet.map((employee) => (
+                      <ListTimeSheetEmployee
+                        employee={employee}
+                        key={employee.userId}
+                      />
+                    ))}
                 </div>
               </div>
             </div>
