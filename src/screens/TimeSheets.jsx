@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ListTimeSheetEmployee, SearchBar, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
-import { Link } from "react-router-dom";
-import { FiUserPlus } from "react-icons/fi";
 import { ToastContainer } from "react-toastify";
 
 const timeline = new Array(17).fill(0);
@@ -81,8 +79,28 @@ function TimeSheets() {
                     value={searchText}
                   />
 
-                  <table className="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                    <thead className="w-full ">
+                  <div className="table_head">
+                    <th className="font-medium capitalize text-[#6d6c6c]">
+                      Employee
+                    </th>
+                    {timeline.map((_, idx) => (
+                      <th
+                        key={`thead_time_${idx}`}
+                        className="text-xs font-thin text-[#6d6c6c] "
+                      >
+                        {("0" + ((7 + idx) % 24)).slice(-2)}:00
+                      </th>
+                    ))}
+                    <div></div>
+                    <th className="font-medium capitalize text-[#6d6c6c]">
+                      arrivé
+                    </th>
+                    <th className="font-medium capitalize text-[#6d6c6c]">
+                      total
+                    </th>
+                  </div>
+                  {/* <table className="items-center w-full mb-0 align-top border-gray-200 text-slate-500"> */}
+                  {/* <thead className="w-full">
                       <tr className="bg-[#E1E5F0]">
                         <th className="font-medium uppercase py-4 text-[#6d6c6c] ">
                           Employee
@@ -102,19 +120,20 @@ function TimeSheets() {
                           total
                         </th>
                       </tr>
-                    </thead>
+                    </thead> */}
 
-                    {timesheet && (
-                      <tbody>
-                        {timesheet.map((employee) => (
-                          <ListTimeSheetEmployee
-                            employee={employee}
-                            key={employee.userId}
-                          />
-                        ))}
-                      </tbody>
-                    )}
-                  </table>
+                  {
+                    timesheet &&
+                      // <tbody>
+                      timesheet.map((employee) => (
+                        <ListTimeSheetEmployee
+                          employee={employee}
+                          key={employee.userId}
+                        />
+                      ))
+                    // </tbody>
+                  }
+                  {/* </table> */}
                 </div>
               </div>
             </div>

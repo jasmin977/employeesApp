@@ -9,11 +9,16 @@ function stringToMinutes(timeString) {
   const minutes = parseInt(timeString.substring(3, 5));
   return hours * 60 + minutes;
 }
-function minutesToString(minutes) {
+function minutesToString(minutes, formate) {
   minutes = minutes % 1440;
-  const hours = ("0" + parseInt(minutes / 60)).slice(-2);
-  const min = ("0" + (minutes % 60)).slice(-2);
-  return hours + ":" + min;
+  const hours = parseInt(minutes / 60);
+  const min = minutes % 60;
+  if (formate === "standard") {
+    let msg = "";
+    msg += hours ? hours + "h" : "";
+    msg += min ? min + (hours ? "" : "min") : "";
+    return msg;
+  } else return ("0" + hours).slice(-2) + ":" + ("0" + min).slice(-2);
 }
 
 function getPercentage(start, end) {
