@@ -1,11 +1,16 @@
 import React from "react";
 import avatar from "../img/employee.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
 import { EmployeeInfoPreview } from "./atomic";
 function ListEmployee({ employee }) {
+  const navigator = useNavigate();
+
   return (
-    <tr className="hover:bg-slate-100">
+    <tr
+      onClick={() => navigator(`/employee/${employee.id}`)}
+      className="hover:bg-slate-100 cursor-pointer"
+    >
       <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
         <EmployeeInfoPreview employee={employee} />
       </td>

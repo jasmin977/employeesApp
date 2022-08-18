@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .table_head {
-  @apply grid w-full items-center py-2 bg-[#E1E5F0];
+  @apply grid w-full justify-items-center items-center py-2 bg-[#E1E5F0];
   grid-template-columns:
     calc(18% - (62% / 34)) repeat(17, calc(62% / 17))
     calc(62% / 34) 10% 10%;

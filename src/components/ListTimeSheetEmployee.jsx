@@ -1,6 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { AiOutlineEye } from "react-icons/ai";
 import { getPercentage, minutesToString } from "../helpers/format-time";
 import { Tooltip } from "@mui/material";
 import { EmployeeInfoPreview } from "./atomic";
