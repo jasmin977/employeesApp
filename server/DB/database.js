@@ -12,7 +12,7 @@ const sequelize = new Sequelize(
     dialect: "mysql", // the db ure connected to
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    logging: true,
+    logging: false,
     define: {
       timestamps: false,
     },

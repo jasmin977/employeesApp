@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ListTimeSheetEmployee, SearchBar, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
-import { Link } from "react-router-dom";
-import { FiUserPlus } from "react-icons/fi";
+
 import { ToastContainer } from "react-toastify";
 
 const timeline = new Array(17).fill(0);

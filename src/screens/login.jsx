@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineLock, AiOutlineUser } from "react-icons/ai";
 import { useCookies } from "react-cookie";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InputField, Clock } from "../components";
 import { useForm } from "../components/hooks/useForm";

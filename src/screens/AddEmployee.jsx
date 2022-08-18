@@ -25,7 +25,7 @@ function AddEmployee() {
     profile_IMG: "defaulIMG",
   });
   const [formErrors, setFormErrors] = useState({});
-  const errors = {};
+
   const navigate = useNavigate();
 
   useEffect(() => {

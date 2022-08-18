@@ -1,7 +1,6 @@
 import React from "react";
 import avatar from "../img/employee.png";
-import { NavLink } from "react-router-dom";
-import { AiOutlineEye } from "react-icons/ai";
+
 import { getPercentage } from "../helpers/format-time";
 import { Tooltip } from "@mui/material";
 

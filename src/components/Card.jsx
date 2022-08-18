@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
-import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
+import { IoIosArrowDown } from "react-icons/io";
+
 import { BsPlusCircleFill } from "react-icons/bs";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
@@ -42,8 +42,10 @@ function Card({ task }) {
           setcompletedTasks((prev) => [
             ...prev.filter((i) => i.id !== task.id),
           ]);
+          setAllTasks((prev) => [...prev.filter((i) => i.id !== task.id)]);
         } else {
           setTasks((prev) => [...prev.filter((i) => i.id !== task.id)]);
+          setAllTasks((prev) => [...prev.filter((i) => i.id !== task.id)]);
         }
       }
     } catch (ex) {

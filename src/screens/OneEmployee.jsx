@@ -105,6 +105,7 @@ function Employee() {
                     >
                       <div>
                         <img
+                          alt="profileIMG"
                           src={
                             employee.profile_IMG === "defaulIMG"
                               ? avatar
@@ -128,6 +129,7 @@ function Employee() {
               <div className=" h-full w-3/4  border-l border-gray-300 p-10">
                 <div className="flex justify-clenter flex-row items-center ">
                   <img
+                    alt="profileIMG"
                     src={
                       employeeData.profile_IMG === "defaulIMG"
                         ? avatar

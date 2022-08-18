@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { SideBar, Card } from "../components";
 import { TailSpin } from "react-loader-spinner";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+
 import "react-circular-progressbar/dist/styles.css";
-import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
-import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 
 function Tasks() {
   const [loading, setLoading] = useState(true);
-  const [taskTEXT, setTASKtext] = useState("");
+
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -27,13 +25,16 @@ function Tasks() {
     fetchTASKS();
   }, []);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="md:ml-64 flex items-center justify-center h-screen ">
-        <TailSpin height="80" width="80" color="#136ABA" />
-      </div>
+      <>
+        <SideBar />
+        <div className="md:ml-64 flex items-center justify-center h-screen ">
+          <TailSpin height="80" width="80" color="#136ABA" />
+        </div>
+      </>
     );
-
+  }
   return (
     <div className="md:ml-64 bg-gray-100 h-full">
       <SideBar />
