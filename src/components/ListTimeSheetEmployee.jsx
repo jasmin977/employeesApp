@@ -1,8 +1,9 @@
 import React from "react";
-import avatar from "../img/employee.png";
 
-import { getPercentage } from "../helpers/format-time";
+import { getPercentage, minutesToString } from "../helpers/format-time";
+
 import { Tooltip } from "@mui/material";
+import { EmployeeInfoPreview } from "./atomic";
 
 const COLOR_STATUS = {
   no_status: "#ebecf5",
@@ -12,43 +13,33 @@ const COLOR_STATUS = {
   extra: "blue",
 };
 
+const ARRIVAL_STATUS_COLOR = {
+  "on Time": "green",
+  early: "blue",
+  late: "red",
+};
+
 function ListTimeSheetEmployee({ employee }) {
   return (
-    <tr className="hover:bg-slate-100">
-      <td className=" align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-        <div className="flex px-2 py-1">
-          <div>
-            <img
-              src={
-                employee.profile_IMG === "defaulIMG"
-                  ? avatar
-                  : employee.profile_IMG
-              }
-              className="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out text-size-sm h-9 w-9 rounded-xl"
-              alt="user1"
-            />
-          </div>
-          <div className="flex flex-col justify-center">
-            <h6 className="mb-0 leading-normal text-size-sm">
-              {employee.firstname} {employee.lastname}
-            </h6>
-            <p className="mb-0 leading-tight text-size-xs text-slate-400">
-              {employee.phone_number}
-            </p>
-          </div>
-        </div>
-      </td>
+    <div className="hover:bg-slate-100 table_body border-b">
+      <div className=" align-middle bg-transparent">
+        <EmployeeInfoPreview employee={employee} />
+      </div>
       {employee.timesheet.map((item, idx) => (
-        <td
-          className="border-b whitespace-nowrap p-0"
+        <div
+          className="whitespace-nowrap p-0"
           key={`${employee.firstname}_timesheet_${employee.userId}__${idx}`}
         >
           <div
             style={{ borderLeft: "1px solid #f5f5f5" }}
-            className="w-full flex items-center h-12 border-slate-300"
+            className="w-full flex items-center h-12 "
           >
-            {item.map((i, idx) => (
-              <Tooltip arrow title={`start : ${i.start}, end : ${i.end}`}>
+            {item.map((i, r) => (
+              <Tooltip
+                key={`_timesheet_${employee.userId}__${idx}__interval_${r}`}
+                arrow
+                title={`start : ${i.start}, end : ${i.end}`}
+              >
                 <div
                   className="interval"
                   style={{
@@ -60,16 +51,20 @@ function ListTimeSheetEmployee({ employee }) {
               </Tooltip>
             ))}
           </div>
-        </td>
+        </div>
       ))}
-      {/* <td className="  align-middle bg-transparent border-b ">
-        <div className="w-full h-12 border-r  border-slate-300 "></div>
-      </td> */}
+      <p
+        className="text-center"
+        style={{
+          color: ARRIVAL_STATUS_COLOR[employee.arrival.status],
+        }}
+      >
+        {minutesToString(employee.arrival.time, "standard")}{" "}
+        {employee.arrival.status}
+      </p>
 
-      <td className="  align-middle bg-transparent border-b ">
-        <div className="w-full h-12  "></div>
-      </td>
-    </tr>
+      <p className="text-center">{employee.total}</p>
+    </div>
   );
 }
 export default ListTimeSheetEmployee;

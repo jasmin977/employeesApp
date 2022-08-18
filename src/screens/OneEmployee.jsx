@@ -7,6 +7,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { AiOutlineEdit } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { DeletePopup, SideBar } from "../components";
+import { Button } from "../components/atomic";
 function Employee() {
   const [employeeData, setEmployeeData] = useState();
   const [popupBTN, setPopupBTN] = useState(false);
@@ -79,12 +80,10 @@ function Employee() {
             employees
           </Link>
           <div className="flex flex-wrap justify-end mx-3 rounded-md shadow-lg bg-white">
-            <button
-              className="  rounded bg-gradient-to-t flex   from-my-dark-blue to-my-sky-blue font-medium 
-                  w-auto text-white text-sm py-2 m-5 justify-end  hover:bg-my-sky-blue-transparent  active:bg-my-sky-blue-transparent  px-4 outline-none focus:outline-none  ease-linear transition-all duration-150"
-            >
-              <p className="text-base">Exporter</p>
-            </button>
+            <div className="flex p-4 justify-end">
+              <Button text="exporter" />
+            </div>
+
             <div className="flex flex-row justify-center w-full max-w-full px-3 right-0 ">
               <div className="  h-full w-1/4 pl-2 pt-2 pb-2">
                 {data.map((employee, index) => (
@@ -261,13 +260,14 @@ function Employee() {
                 </div>
               </div>
             </div>
-            <button
-              onClick={() => setPopupBTN(true)}
-              className=" w-fit rounded bg-red-500 font-medium self-end hover:bg-red-400
-                  text-white text-sm px-3 py-2  mx-4 mb-4 justify-evenly"
-            >
-              <p className="text-base">supprimer</p>
-            </button>
+            <div className="flex justify-end p-4">
+              <Button
+                text="supprimer"
+                action={() => setPopupBTN(true)}
+                bg="rgb(239, 68, 68)"
+              />
+            </div>
+
             <DeletePopup
               trigger={popupBTN}
               setTrigger={setPopupBTN}

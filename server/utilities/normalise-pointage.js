@@ -57,6 +57,7 @@ const getTimesheet = (results) => {
       let employeeArrival = stringToMinutes(item.arrival);
       let employeeDeparture = stringToMinutes(item.departure);
       let shouldStartTime = stringToMinutes(item.start_time);
+      let shouldEndTime = stringToMinutes(item.end_time);
 
       // loop throw hours
       while (employeeDeparture !== currentTime) {
@@ -65,6 +66,13 @@ const getTimesheet = (results) => {
           prevStatus !== "present" &&
           prevStatus !== "absent"
         ) {
+          const deltaTime = employeeArrival - shouldStartTime;
+          usersList[usersList.length - 1].arrival =
+            deltaTime === 0
+              ? { status: "On Time", time: deltaTime }
+              : deltaTime > 0
+              ? { status: "late", time: deltaTime }
+              : { status: "early", time: Math.abs(deltaTime) };
           getIntervalStatus(
             thisHour,
             currentTime,
@@ -98,15 +106,8 @@ const getTimesheet = (results) => {
             thisHour,
             currentTime,
             Math.min(employeeDeparture, endInterval),
-            "present"
+            currentTime > shouldEndTime ? "extra" : "present"
           );
-          getIntervalStatus(
-            thisHour,
-            currentTime,
-            Math.min(employeeDeparture, endInterval),
-            "extra"
-          );
-
           isNewPoitage = currentTime === employeeDeparture;
         }
         if (currentTime % 60 === 0) {
