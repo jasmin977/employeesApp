@@ -1,10 +1,9 @@
-function formatDate(date) {
-  return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${(
-    "0" + date.getDate()
-  ).slice(-2)}`;
-}
-function formatPerMonth(date) {
-  return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-`;
+function formatDate(date, month) {
+  if (month) return `${date.getFullYear()}-${("0" + month).slice(-2)}-%`;
+  else
+    return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${(
+      "0" + date.getDate()
+    ).slice(-2)}`;
 }
 
 function stringToMinutes(timeString) {
@@ -23,5 +22,4 @@ module.exports = {
   formatDate,
   stringToMinutes,
   minutesToString,
-  formatPerMonth,
 };
