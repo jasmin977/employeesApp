@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ListTimeSheetEmployee, SearchWarpper, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
 
 import { Button, SearchInput, StatusInstructions } from "../components/atomic";
+import { formatDate } from "../helpers/format-time";
 
 const timeline = new Array(17).fill(0);
 
-function TimeSheetEmployee({ employeeId }) {
+function TimeSheetEmployee() {
+  const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [employees, setEmployees] = useState([]);
@@ -19,9 +22,10 @@ function TimeSheetEmployee({ employeeId }) {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const timeSheetResponse = await axios.get(`/api/admin/timesheet`);
-        settimesheet(timeSheetResponse.data);
-        console.log(timesheet);
+        const timeSheetResponse = await axios.get(
+          `/api/admin/timesheet?id=${id}`
+        );
+        settimesheet(...timeSheetResponse.data);
       } catch (error) {
         console.log("error");
       }
@@ -36,11 +40,9 @@ function TimeSheetEmployee({ employeeId }) {
       setData(employees);
     } else {
       let filtredEmployees = [];
-
       filtredEmployees = employees.filter((employee) => {
         const lc = employee.firstname.toLowerCase();
         text = text.toLowerCase();
-
         return lc.includes(text);
       });
       setData(filtredEmployees);
@@ -103,6 +105,17 @@ function TimeSheetEmployee({ employeeId }) {
                       total
                     </div>
                   </div>
+
+                  {timesheet &&
+                    Object.keys(timesheet.timesheet).map((key) => (
+                      <ListTimeSheetEmployee
+                        userId={timesheet.userId}
+                        day={timesheet.timesheet[key]}
+                        key={key}
+                      >
+                        <h2 className="text-center text-sm">{key}</h2>
+                      </ListTimeSheetEmployee>
+                    ))}
                 </div>
               </div>
             </div>

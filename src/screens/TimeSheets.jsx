@@ -3,7 +3,13 @@ import axios from "axios";
 import { ListTimeSheetEmployee, SearchWarpper, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
 
-import { Button, SearchInput, StatusInstructions } from "../components/atomic";
+import {
+  Button,
+  EmployeeInfoPreview,
+  SearchInput,
+  StatusInstructions,
+} from "../components/atomic";
+import { formatDate } from "../helpers/format-time";
 
 const timeline = new Array(17).fill(0);
 
@@ -22,7 +28,6 @@ function TimeSheets() {
         const timeSheetResponse = await axios.get("/api/admin/timesheet");
         settimesheet(timeSheetResponse.data);
         setEmployees(response.data);
-        setData(response.data);
       } catch (error) {
         console.log("error");
       }
@@ -107,9 +112,14 @@ function TimeSheets() {
                   {timesheet &&
                     timesheet.map((employee) => (
                       <ListTimeSheetEmployee
-                        employee={employee}
+                        day={
+                          employee.timesheet[Object.keys(employee.timesheet)[0]]
+                        }
+                        userId={employee.userId}
                         key={employee.userId}
-                      />
+                      >
+                        <EmployeeInfoPreview employee={employee} />
+                      </ListTimeSheetEmployee>
                     ))}
                 </div>
               </div>

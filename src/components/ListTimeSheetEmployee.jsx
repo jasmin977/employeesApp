@@ -3,7 +3,6 @@ import React from "react";
 import { getPercentage, minutesToString } from "../helpers/format-time";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
-import { EmployeeInfoPreview } from "./atomic";
 
 const COLOR_STATUS = {
   no_status: "#ebecf5",
@@ -19,20 +18,18 @@ const ARRIVAL_STATUS_COLOR = {
   late: "#ff5722",
 };
 
-function ListTimeSheetEmployee({ employee }) {
+function ListTimeSheetEmployee({ userId, day, children }) {
   const navigator = useNavigate();
   return (
     <div
-      onClick={() => navigator(`/timesheet/${employee.userId}`)}
-      className=" table_body border-b hover:bg-slate-100 cursor-pointer"
+      onClick={() => navigator(`/timesheet/${userId}`)}
+      className="table_body border-b hover:bg-slate-100 cursor-pointer"
     >
-      <div className=" align-middle bg-transparent">
-        <EmployeeInfoPreview employee={employee} />
-      </div>
-      {employee.timesheet.map((item, idx) => (
+      <div className=" align-middle bg-transparent">{children}</div>
+      {day.timesheet.map((item, idx) => (
         <div
           className="whitespace-nowrap p-0"
-          key={`${employee.firstname}_timesheet_${employee.userId}__${idx}`}
+          key={`_timesheet_${userId}__${idx}`}
         >
           <div
             style={{ borderLeft: "1px solid #f5f5f5" }}
@@ -40,7 +37,7 @@ function ListTimeSheetEmployee({ employee }) {
           >
             {item.map((i, r) => (
               <Tooltip
-                key={`_timesheet_${employee.userId}__${idx}__interval_${r}`}
+                key={`_timesheet_${userId}__${idx}__interval_${r}`}
                 arrow
                 title={`start : ${i.start}, end : ${i.end}`}
               >
@@ -60,14 +57,13 @@ function ListTimeSheetEmployee({ employee }) {
       <p
         className="text-center"
         style={{
-          color: ARRIVAL_STATUS_COLOR[employee.arrival.status],
+          color: ARRIVAL_STATUS_COLOR[day.arrival.status],
         }}
       >
-        {minutesToString(employee.arrival.time, "standard")}{" "}
-        {employee.arrival.status}
+        {minutesToString(day.arrival.time, "standard")} {day.arrival.status}
       </p>
 
-      <p className="text-center">{employee.total}</p>
+      {/* <p className="text-center">{employee.total}</p> */}
     </div>
   );
 }
