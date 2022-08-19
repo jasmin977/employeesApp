@@ -1,4 +1,43 @@
-[
+[ 
+{
+  "arrival": "08:00:12",
+  "departure": "18:00:12",
+  "date": "2022-08-01",
+  "userId": 2
+},
+{
+  "arrival": "08:00:12",
+  "departure": "18:00:12",
+  "date": "2022-08-02",
+  "userId": 2
+},
+{
+  "arrival": "08:00:12",
+  "departure": "18:00:12",
+  "date": "2022-08-03",
+  "userId": 2
+},
+{
+  "arrival": "08:00:12",
+  "departure": "18:00:12",
+  "date": "2022-08-04",
+  "userId": 2
+},
+{
+  "arrival": "09:00:12",
+  "departure": "19:00:12",
+  "date": "2022-08-05",
+  "userId": 2
+},
+
+{
+  "arrival": "07:00:12",
+  "departure": "15:00:12",
+  "date": "2022-08-06",
+  "userId": 2
+},
+
+
   {
     "arrival": "08:30:12",
     "departure": "12:45:12",

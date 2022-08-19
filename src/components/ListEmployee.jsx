@@ -30,11 +30,6 @@ function ListEmployee({ employee }) {
           {employee.employee_since}
         </span>
       </td>
-      <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-        <NavLink to={`/employee/${employee.id}`} exact="true">
-          <AiOutlineEye name="dashboard" size={25} />
-        </NavLink>
-      </td>
     </tr>
   );
 }

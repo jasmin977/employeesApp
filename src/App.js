@@ -13,6 +13,7 @@ import Employees from "./screens/Employees";
 
 import { AuthRoute } from "./components";
 import TimeSheets from "./screens/TimeSheets";
+import TimeSheetEmployee from "./screens/TimeSheetEmployee";
 import Employee from "./screens/OneEmployee";
 import AddEmployee from "./screens/AddEmployee";
 import Tasks from "./screens/Tasks";
@@ -80,6 +81,16 @@ function App() {
             </AuthRoute>
           }
         />
+        <Route
+          exact
+          path="/timesheet/:id"
+          element={
+            <AuthRoute>
+              <TimeSheetEmployee />
+            </AuthRoute>
+          }
+        />
+
         <Route
           exact
           path="/tasks"

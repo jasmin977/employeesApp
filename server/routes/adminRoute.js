@@ -1,5 +1,5 @@
 const User = require("../models/Employee");
-
+const { formatPerMonth } = require("../utilities/format-time");
 const route = require("express").Router();
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
@@ -96,15 +96,16 @@ route.delete("/:id", async (req, res) => {
 // @access Admin
 route.get("/timesheet", async (req, res) => {
   const { id } = req.query;
+  const month = formatPerMonth(new Date());
   let results = null;
   if (id)
     [results] = await sequelize.query(
       `select userId,arrival, departure, date, 
   firstname, lastname, phone_number, profile_IMG, start_time, end_time  
   from pointages as p, users as u 
-  where date="2022-08-08" and userId = u.id and userId = ? order by userId`,
+  where date like ? and userId = u.id and userId = ?  order by date `,
       {
-        replacements: [id],
+        replacements: [month, id],
       }
     );
   else

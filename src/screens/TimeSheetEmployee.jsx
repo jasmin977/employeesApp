@@ -7,22 +7,21 @@ import { Button, SearchInput, StatusInstructions } from "../components/atomic";
 
 const timeline = new Array(17).fill(0);
 
-function TimeSheets() {
+function TimeSheetEmployee({ employeeId }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [timesheet, settimesheet] = useState(null);
 
   const [searchText, setSearchText] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("/api/admin/");
-        const timeSheetResponse = await axios.get("/api/admin/timesheet");
+        const timeSheetResponse = await axios.get(`/api/admin/timesheet`);
         settimesheet(timeSheetResponse.data);
-        setEmployees(response.data);
-        setData(response.data);
+        console.log(timesheet);
       } catch (error) {
         console.log("error");
       }
@@ -86,7 +85,7 @@ function TimeSheets() {
                   <StatusInstructions />
                   <div className="table_head bg-[#F5F5FA]">
                     <div className="font-medium capitalize text-[#999898]">
-                      Employee
+                      Date
                     </div>
                     {timeline.map((_, idx) => (
                       <div
@@ -104,13 +103,6 @@ function TimeSheets() {
                       total
                     </div>
                   </div>
-                  {timesheet &&
-                    timesheet.map((employee) => (
-                      <ListTimeSheetEmployee
-                        employee={employee}
-                        key={employee.userId}
-                      />
-                    ))}
                 </div>
               </div>
             </div>
@@ -120,4 +112,4 @@ function TimeSheets() {
     </div>
   );
 }
-export default TimeSheets;
+export default TimeSheetEmployee;

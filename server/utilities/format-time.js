@@ -3,6 +3,9 @@ function formatDate(date) {
     "0" + date.getDate()
   ).slice(-2)}`;
 }
+function formatPerMonth(date) {
+  return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-`;
+}
 
 function stringToMinutes(timeString) {
   const hours = parseInt(timeString.substring(0, 2));
@@ -20,4 +23,5 @@ module.exports = {
   formatDate,
   stringToMinutes,
   minutesToString,
+  formatPerMonth,
 };

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getPercentage, minutesToString } from "../helpers/format-time";
-
+import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
 import { EmployeeInfoPreview } from "./atomic";
 
@@ -10,18 +10,22 @@ const COLOR_STATUS = {
   present: "#6ce63a",
   absent: "#f44336",
   late: "#ff5722",
-  extra: "blue",
+  extra: "#5FD5FB",
 };
 
 const ARRIVAL_STATUS_COLOR = {
-  "on Time": "green",
-  early: "blue",
-  late: "red",
+  "on Time": "#6ce63a",
+  early: "#5FD5FB",
+  late: "#ff5722",
 };
 
 function ListTimeSheetEmployee({ employee }) {
+  const navigator = useNavigate();
   return (
-    <div className="hover:bg-slate-100 table_body border-b">
+    <div
+      onClick={() => navigator(`/timesheet/${employee.userId}`)}
+      className=" table_body border-b hover:bg-slate-100 cursor-pointer"
+    >
       <div className=" align-middle bg-transparent">
         <EmployeeInfoPreview employee={employee} />
       </div>

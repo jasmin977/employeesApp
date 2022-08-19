@@ -3,9 +3,7 @@ import axios from "axios";
 import { ListEmployee, SearchWarpper, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
 import { Link } from "react-router-dom";
-import { BsSearch } from "react-icons/bs";
 import { FiUserPlus } from "react-icons/fi";
-import { ToastContainer } from "react-toastify";
 import { Button, SearchInput } from "../components/atomic";
 function Employees() {
   const [loading, setLoading] = useState(true);
@@ -99,7 +97,6 @@ function Employees() {
                         <th className="px-6 py-5 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-size-xxs border-b-solid tracking-none whitespace-nowrap text-[#6d6c6c]">
                           Employed
                         </th>
-                        <th className="px-6 py-5 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap text-slate-400 "></th>
                       </tr>
                     </thead>
 
@@ -115,17 +112,6 @@ function Employees() {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 }
