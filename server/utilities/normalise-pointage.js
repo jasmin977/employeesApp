@@ -66,13 +66,14 @@ const getTimesheet = (results) => {
       let currentTime = startInterval;
       let prevStatus = null;
       let thisHour = [];
+      let shouldEndTime = 0;
       const timesheet_per_day = { timesheet: [] };
       // loop throw pointage hours of a given day
       element.pointage[day].forEach((item) => {
         let employeeArrival = stringToMinutes(item.arrival);
         let employeeDeparture = stringToMinutes(item.departure);
         let shouldStartTime = stringToMinutes(item.start_time);
-        let shouldEndTime = stringToMinutes(item.end_time);
+        shouldEndTime = stringToMinutes(item.end_time);
 
         // loop throw hours
         while (employeeDeparture !== currentTime) {
@@ -112,7 +113,7 @@ const getTimesheet = (results) => {
             getIntervalStatus(
               thisHour,
               currentTime,
-              Math.min(employeeArrival, endInterval),
+              Math.min(employeeArrival, endInterval, shouldEndTime),
               "absent"
             );
             isNewPoitage = currentTime !== employeeArrival;
@@ -134,6 +135,21 @@ const getTimesheet = (results) => {
           }
         }
       });
+
+      while (currentTime < shouldEndTime) {
+        getIntervalStatus(
+          thisHour,
+          currentTime,
+          Math.min(shouldEndTime, endInterval),
+          "absent"
+        );
+        if (currentTime % 60 === 0) {
+          timesheet_per_day.timesheet.push(thisHour);
+          startInterval = endInterval;
+          endInterval = startInterval + 60;
+          thisHour = [];
+        }
+      }
       getIntervalStatus(thisHour, currentTime, endInterval, "no_status");
       timesheet_per_day.timesheet.push(thisHour);
       while (currentTime !== END_TIME_MIN) {

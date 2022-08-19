@@ -4,6 +4,7 @@ import { SideBar, Card } from "../components";
 import { TailSpin } from "react-loader-spinner";
 
 import "react-circular-progressbar/dist/styles.css";
+import { PageName } from "../components/atomic";
 
 function Tasks() {
   const [loading, setLoading] = useState(true);
@@ -38,9 +39,9 @@ function Tasks() {
   return (
     <div className="md:ml-64 bg-gray-100 h-full">
       <SideBar />
-      <div className="p-6 pb-0 mb-0">
-        <h2 className="text-slate-500 text-2xl">TACHES</h2>
-      </div>{" "}
+
+      <PageName>taches</PageName>
+
       <div className="w-full px-6 py-6  h-full ">
         <div className="flex-none w-full  max-w-screen-xl  px-3">
           <div className="relative flex flex-col min-w-0 mb-6  p-4">

@@ -4,7 +4,7 @@ import { ListEmployee, SearchWarpper, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { FiUserPlus } from "react-icons/fi";
-import { Button, SearchInput } from "../components/atomic";
+import { Button, PageName, SearchInput } from "../components/atomic";
 function Employees() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -61,10 +61,8 @@ function Employees() {
   return (
     <div className="md:ml-64 bg-gray-100 h-full">
       <SideBar />
+      <PageName>Employees</PageName>
 
-      <div className="p-6 pb-0 mb-0">
-        <h2 className="text-slate-500 text-2xl">Employees</h2>
-      </div>
       <div className="w-full px-6 py-6 mx-auto h-screen">
         <div className="flex flex-wrap -mx-3 ">
           <div className="flex-none w-full max-w-full px-3">

@@ -4,8 +4,12 @@ import axios from "axios";
 import { ListTimeSheetEmployee, SearchWarpper, SideBar } from "../components";
 import { TailSpin } from "react-loader-spinner";
 
-import { Button, SearchInput, StatusInstructions } from "../components/atomic";
-import { formatDate } from "../helpers/format-time";
+import {
+  Button,
+  PageName,
+  SearchInput,
+  StatusInstructions,
+} from "../components/atomic";
 
 const timeline = new Array(17).fill(0);
 
@@ -66,10 +70,8 @@ function TimeSheetEmployee() {
   return (
     <div className="md:ml-64 bg-gray-100 h-full">
       <SideBar />
+      <PageName>Feuilles de temps</PageName>
 
-      <div className="p-6 pb-0 mb-0">
-        <h2 className="text-slate-500 text-2xl">Feuilles de temps</h2>
-      </div>
       <div className="w-full px-6 py-6 mx-auto h-screen">
         <div className="flex flex-wrap -mx-3 ">
           <div className="flex-none w-full max-w-full px-3">
