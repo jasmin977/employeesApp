@@ -102,7 +102,7 @@ route.get("/timesheet", async (req, res) => {
   let results = null;
   if (id)
     [results] = await sequelize.query(
-      `select userId,arrival, departure, date, 
+      `select userId,holiday,arrival, departure, date, 
   firstname, lastname, phone_number, profile_IMG, start_time, end_time  
   from pointages as p, users as u 
   where date like ? and userId = u.id and userId = ?  order by date `,
@@ -112,7 +112,7 @@ route.get("/timesheet", async (req, res) => {
     );
   else
     [results] = await sequelize.query(
-      `select userId,arrival, departure, date, 
+      `select userId,holiday,arrival, departure, date, 
   firstname, lastname, phone_number, profile_IMG, start_time, end_time  
   from pointages as p, users as u 
   where date= ? and userId = u.id order by userId`,
@@ -121,7 +121,7 @@ route.get("/timesheet", async (req, res) => {
       }
     );
 
-  const usersList = getTimesheet(results);
+  const usersList = getTimesheet(results, id ? month : null);
   res.send(usersList);
 });
 

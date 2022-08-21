@@ -1,39 +1,82 @@
-const { minutesToString, stringToMinutes } = require("./format-time");
+const {
+  minutesToString,
+  stringToMinutes,
+  incrementDay,
+  getFirstDayOfMonth,
+  formatDate,
+} = require("./format-time");
 
-const getPointagePerUser = (results) => {
+function formatPointage(data) {
+  const pointage = {};
+  data.forEach((item) =>
+    pointage[item.date]
+      ? pointage[item.date].push(item)
+      : (pointage[item.date] = [item])
+  );
+  return pointage;
+}
+
+function generateMonthTimesheet(data, month) {
+  const pointage = {};
+  let date = getFirstDayOfMonth(month);
+  let dataPointer = 0;
+  while (date.getMonth() !== month) {
+    const stringDate = formatDate(date);
+    if (dataPointer < data.length && stringDate === data[dataPointer].date) {
+      pointage[stringDate]
+        ? pointage[stringDate].push(data[dataPointer++])
+        : (pointage[stringDate] = [data[dataPointer++]]);
+    } else if (!pointage[stringDate]) {
+      data[dataPointer] && date.getDay() === data[dataPointer].holiday
+        ? (pointage[stringDate] = {
+            start: "7:00",
+            end: "8:00",
+            status: "holiday",
+          })
+        : (pointage[stringDate] = {
+            start: "7:00",
+            end: "8:00",
+            status: "absent",
+          });
+      date = incrementDay(date, 1);
+    } else date = incrementDay(date, 1);
+  }
+  return pointage;
+}
+
+const getPointagePerUser = (results, month) => {
   let currentUser = null;
-  const pointagePerEmployee = [];
-  results.forEach((item) => {
-    if (item.userId !== currentUser) {
-      currentUser = item.userId;
-      pointagePerEmployee.push({
-        user: {
-          userId: currentUser,
-          firstname: item.firstname,
-          lastname: item.lastname,
-          phone_number: item.phone_number,
-          profile_IMG: item.profile_IMG,
-          total: 0,
-        },
-        pointage: {},
-      });
+  let pointagePerEmployee = [];
+  let i = 0;
+  while (i < results.length) {
+    currentUser = results[i].userId;
+    const userPointage = [];
+    while (i < results.length && results[i].userId === currentUser) {
+      userPointage.push(results[i++]);
     }
-    pointagePerEmployee[pointagePerEmployee.length - 1].pointage[item.date]
-      ? pointagePerEmployee[pointagePerEmployee.length - 1].pointage[
-          item.date
-        ].push(item)
-      : (pointagePerEmployee[pointagePerEmployee.length - 1].pointage[
-          item.date
-        ] = [item]);
-  });
+    pointagePerEmployee.push({
+      user: {
+        userId: currentUser,
+        firstname: results[i - 1].firstname,
+        lastname: results[i - 1].lastname,
+        phone_number: results[i - 1].phone_number,
+        profile_IMG: results[i - 1].profile_IMG,
+        holiday: results[i - 1].holiday,
+        total: 0,
+      },
+      pointage: month
+        ? generateMonthTimesheet(userPointage, month)
+        : formatPointage(userPointage),
+    });
+  }
   return pointagePerEmployee;
 };
 
-const getTimesheet = (results) => {
+const getTimesheet = (results, month) => {
   const usersList = [];
   const START_TIME_MIN = 7 * 60;
   const END_TIME_MIN = 24 * 60;
-  const pointagePerEmployee = getPointagePerUser(results);
+  const pointagePerEmployee = getPointagePerUser(results, month);
 
   // loop throw employees
   pointagePerEmployee.forEach((element) => {
@@ -41,6 +84,12 @@ const getTimesheet = (results) => {
 
     // loop throw one day pointage
     Object.keys(element.pointage).forEach((day) => {
+      if (element.pointage[day].status) {
+        return (usersList[usersList.length - 1].timesheet[day] = {
+          timesheet: [element.pointage[day]],
+        });
+      }
+
       const getIntervalStatus = (
         thisHour,
         start,

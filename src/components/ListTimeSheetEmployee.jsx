@@ -8,6 +8,7 @@ const COLOR_STATUS = {
   no_status: "#ebecf5",
   present: "#6ce63a",
   absent: "#f44336",
+  holiday: "#4338ca",
   late: "#ff5722",
   extra: "#5FD5FB",
 };
@@ -26,42 +27,71 @@ function ListTimeSheetEmployee({ userId, day, children }) {
       className="table_body border-b hover:bg-slate-100 cursor-pointer"
     >
       <div className=" align-middle bg-transparent">{children}</div>
-      {day.timesheet.map((item, idx) => (
+      {day.timesheet.length === 1 ? (
         <div
+          style={{
+            gridColumnStart: "2",
+            gridColumnEnd: "18",
+          }}
           className="whitespace-nowrap p-0"
-          key={`_timesheet_${userId}__${idx}`}
         >
           <div
             style={{ borderLeft: "1px solid #f5f5f5" }}
             className="w-full flex items-center h-12 "
           >
-            {item.map((i, r) => (
-              <Tooltip
-                key={`_timesheet_${userId}__${idx}__interval_${r}`}
-                arrow
-                title={`start : ${i.start}, end : ${i.end}`}
+            <Tooltip arrow title={`whole day`}>
+              <div
+                className="text-center text-white align-middle"
+                style={{
+                  background: COLOR_STATUS[day.timesheet[0].status],
+                  width: `100%`,
+                  height: "0.75rem",
+                  fontSize: "0.75rem",
+                }}
               >
-                <div
-                  className="interval"
-                  style={{
-                    background: COLOR_STATUS[i.status],
-                    width: `${getPercentage(i.start, i.end)}%`,
-                    height: "0.5rem",
-                  }}
-                ></div>
-              </Tooltip>
-            ))}
+                {day.timesheet[0].status}
+              </div>
+            </Tooltip>
           </div>
         </div>
-      ))}
-      <p
+      ) : (
+        day.timesheet.map((item, idx) => (
+          <div
+            className="whitespace-nowrap p-0"
+            key={`_timesheet_${userId}__${idx}`}
+          >
+            <div
+              style={{ borderLeft: "1px solid #f5f5f5" }}
+              className="w-full flex items-center h-12 "
+            >
+              {item.map((i, r) => (
+                <Tooltip
+                  key={`_timesheet_${userId}__${idx}__interval_${r}`}
+                  arrow
+                  title={`start : ${i.start}, end : ${i.end}`}
+                >
+                  <div
+                    className="interval"
+                    style={{
+                      background: COLOR_STATUS[i.status],
+                      width: `${getPercentage(i.start, i.end)}%`,
+                      height: "0.5rem",
+                    }}
+                  ></div>
+                </Tooltip>
+              ))}
+            </div>
+          </div>
+        ))
+      )}
+      {/* <p
         className="text-center"
         style={{
           color: ARRIVAL_STATUS_COLOR[day.arrival.status],
         }}
       >
         {minutesToString(day.arrival.time, "standard")} {day.arrival.status}
-      </p>
+      </p> */}
 
       {/* <p className="text-center">{employee.total}</p> */}
     </div>
