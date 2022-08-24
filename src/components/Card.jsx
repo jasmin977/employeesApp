@@ -255,30 +255,6 @@ function Card({ task }) {
                     </TransitionGroup>
                   </List>
                 </Box>
-
-                {/** {task.notDone.map((uncompletedTask, i) => (
-                    <div className="mx-2 border border-white p-1 rounded-md my-1">
-                      {uncompletedTask.isDone ? (
-                        <div className="flex flex-row justify-start items-center">
-                          <GrCheckboxSelected
-                            color="gray"
-                            size={20}
-                            className="mx-1"
-                          />
-                          <p className="text-lg text-gray-700 ">
-                            {uncompletedTask.text}
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="flex flex-row justify-start items-center">
-                          <GrCheckbox color="gray" size={20} className="mx-1" />
-                          <p className="text-lg text-gray-700 ">
-                            {uncompletedTask.text}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))} */}
               </AccordionDetails>
             </Accordion>
 
@@ -345,32 +321,6 @@ function Card({ task }) {
                     </TransitionGroup>
                   </List>
                 </Box>
-                {/**
-                <div className="bg-slate-100 rounded-md p-1 h-fit w-full">
-                  {completedTasks.map((completedTask, i) => (
-                    <div className="mx-2 border border-white p-1 rounded-md my-1">
-                      {completedTask.isDone ? (
-                        <div className="flex flex-row justify-start items-center">
-                          <GrCheckboxSelected
-                            color="gray"
-                            size={20}
-                            className="mx-1"
-                          />
-                          <p className="text-lg text-gray-700 ">
-                            {completedTask.text}
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="flex flex-row justify-start items-center">
-                          <GrCheckbox color="gray" size={20} className="mx-1" />
-                          <p className="text-lg text-gray-700 ">
-                            {completedTask.text}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                      </div> */}
               </AccordionDetails>
             </Accordion>
           </div>
@@ -385,7 +335,7 @@ function Card({ task }) {
         <div className="mb-2 ">
           <input
             type="text"
-            className="shadow  border rounded w-full py-2 px-3 mr-4 text-grey-darker"
+            className=" border rounded w-full py-2 px-3 mr-4 text-grey-darker"
             placeholder="add new task"
             value={taskTEXT}
             name="task"

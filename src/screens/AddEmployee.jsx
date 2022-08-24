@@ -7,6 +7,7 @@ import { FormInputField, SideBar } from "../components";
 import avatar from "../img/employee.png";
 import { ToastContainer, toast } from "react-toastify";
 import Moment from "moment";
+import NavBar from "../components/NavBar";
 
 function AddEmployee() {
   const [values, setValues] = useState({
@@ -128,9 +129,9 @@ function AddEmployee() {
 
   return (
     <>
-      <div className="md:ml-64 bg-gray-100">
+      <div className="md:ml-64 pt-14 bg-gray-100">
         <SideBar />
-
+        <NavBar />
         <div className="w-full bg-gray-100  px-6 py-6 mx-auto">
           <Link
             className="flex flex-row text-gray-500 text-lg font-medium p-3 "

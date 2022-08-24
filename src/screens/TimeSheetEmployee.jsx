@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { ListTimeSheetEmployee, SearchWarpper, SideBar } from "../components";
+import {
+  ListTimeSheetEmployee,
+  NavBar,
+  SearchWarpper,
+  SideBar,
+} from "../components";
 import { TailSpin } from "react-loader-spinner";
 
 import {
@@ -68,8 +73,9 @@ function TimeSheetEmployee() {
     );
   }
   return (
-    <div className="md:ml-64 bg-gray-100 h-full">
+    <div className="md:ml-64 pt-14 bg-gray-100 h-full">
       <SideBar />
+      <NavBar />
       <PageName>Feuilles de temps</PageName>
 
       <div className="w-full px-6 py-6 mx-auto h-screen">
@@ -110,13 +116,16 @@ function TimeSheetEmployee() {
 
                   {timesheet &&
                     Object.keys(timesheet.timesheet).map((key) => (
-                      <ListTimeSheetEmployee
-                        userId={timesheet.userId}
-                        day={timesheet.timesheet[key]}
-                        key={key}
-                      >
-                        <h2 className="text-center text-sm">{key}</h2>
-                      </ListTimeSheetEmployee>
+                      <div key={key}>
+                        {new Date(key) < new Date() && (
+                          <ListTimeSheetEmployee
+                            userId={timesheet.userId}
+                            day={timesheet.timesheet[key]}
+                          >
+                            <h2 className="text-center text-sm">{key}</h2>
+                          </ListTimeSheetEmployee>
+                        )}
+                      </div>
                     ))}
                 </div>
               </div>

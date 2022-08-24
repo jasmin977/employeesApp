@@ -1,7 +1,6 @@
 import React from "react";
-import avatar from "../img/employee.png";
-import { NavLink, useNavigate } from "react-router-dom";
-import { AiOutlineEye } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { Tooltip } from "@mui/material";
 import { EmployeeInfoPreview } from "./atomic";
 function ListEmployee({ employee }) {
   const navigator = useNavigate();
@@ -22,8 +21,25 @@ function ListEmployee({ employee }) {
           {employee.matricul}
         </p>
       </td>
+      <td className="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+        <span className="font-semibold leading-tight text-xs text-slate-400">
+          {employee.start_time}
+        </span>
+      </td>
+      <td className="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+        <span className="font-semibold leading-tight text-xs text-slate-400">
+          {employee.end_time}
+        </span>
+      </td>
+
       <td className="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
-        <div className="bg-lime-600 w-4 h-4 rounded-full  inline-block   align-baseline "></div>
+        <Tooltip arrow title={`status: ${employee.status}`}>
+          <div
+            className={`${
+              employee.status === "absent" ? "bg-absent" : "bg-present"
+            } w-4 h-4 rounded-full  inline-block`}
+          ></div>
+        </Tooltip>
       </td>
       <td className="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
         <span className="font-semibold leading-tight text-xs text-slate-400">

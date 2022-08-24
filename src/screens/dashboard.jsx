@@ -1,39 +1,38 @@
 import React from "react";
-import { useCookies } from "react-cookie";
-import { SideBar } from "../components";
 
-import { useNavigate } from "react-router-dom";
+import {
+  SideBar,
+  ToDoOverview,
+  BirthdayCard,
+  EmployeePresence,
+  HolidaysAndAbsences,
+  NavBar,
+} from "../components";
+
 import { PageName } from "../components/atomic";
 
+import EmployeeStatus from "../components/EmployeeStatus";
+
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies(["token"]);
-
-  const logOut = () => {
-    removeCookie("token");
-    navigate("/login");
-  };
   return (
-    <div className="md:ml-64 bg-gray-100 h-full">
+    <div className="md:ml-64 bg-gray-100 pt-14 h-full ">
       <SideBar />
+      <NavBar />
       <PageName>Dashboard</PageName>
-
-      <div className="w-full flex flex-row justify-between px-6 py-6 gap-3 h-screen ">
-        <div className="bg-white w-2/3 h-20 p-4 rounded-md shadow-sm">
-          <table className="items-center w-full  text-[#7c7c7e] text-sm">
-            <thead>
-              <tr className="bg-[#F5F5FA]  ">
-                <th className="py-2 ">employee</th>
-                <th>Start</th>
-                <th>Departure</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody></tbody>
-          </table>
+      <div className="grid grid-rows-2 p-6">
+        <div className="  grid cols-rows-3 grid-flow-col gap-4 ">
+          <EmployeeStatus />
+          <div className="grid rows-rows-3  gap-4 ">
+            <EmployeePresence />
+            <BirthdayCard />
+          </div>
         </div>
-        <div className="bg-white w-1/3 h-20 rounded-md shadow-sm"></div>
+
+        <div className="  py-6 grid  grid-cols-3 gap-4 ">
+          <div className="   bg-white"></div>
+          <ToDoOverview />
+          <HolidaysAndAbsences />
+        </div>
       </div>
     </div>
   );

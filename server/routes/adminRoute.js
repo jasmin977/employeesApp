@@ -39,6 +39,38 @@ route.get("/", async (req, res) => {
     return res.json(employee);
   }
 });
+route.get("/birthdayInfo", async (req, res) => {
+  let birthdayResult = null;
+  const birthday = `%-${("0" + (new Date().getMonth() + 1)).slice(-2)}-${
+    ("0" + new Date().getDate()).slice(-2) - 1
+  }`;
+
+  [birthdayResult] = await sequelize.query(
+    `select id,firstname, lastname, phone_number, profile_IMG ,date_of_birth
+    from users where date_of_birth like ?;`,
+    {
+      replacements: [birthday],
+    }
+  );
+
+  return res.json(birthdayResult);
+});
+route.get("/employees", async (req, res) => {
+  [all] = await sequelize.query(`select id,firstname, lastname from users;`);
+  [absent] = await sequelize.query(
+    `select id,firstname, lastname from users where status="absent";`
+  );
+
+  [present] = await sequelize.query(
+    `select id,firstname, lastname from users where status="present";`
+  );
+
+  return res.json({
+    allEmployee: all,
+    presentEmployee: present,
+    absentEmployee: absent,
+  });
+});
 
 route.post("/", async (req, res) => {
   const { error, value } = schema.validate(req.body);
@@ -95,7 +127,8 @@ route.delete("/:id", async (req, res) => {
 // @desc get timesheet for every employee
 // @access Admin
 route.get("/timesheet", async (req, res) => {
-  let { id, month } = req.query;
+  let { id, month, date } = req.query;
+  if (!date) date = new Date();
   month = parseInt(month)
     ? parseInt(month)
     : parseInt(new Date().getMonth() + 1);
@@ -117,7 +150,7 @@ route.get("/timesheet", async (req, res) => {
   from pointages as p, users as u 
   where date= ? and userId = u.id order by userId`,
       {
-        replacements: [formatDate(new Date())],
+        replacements: [date],
       }
     );
 

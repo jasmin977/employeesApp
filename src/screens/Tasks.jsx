@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { SideBar, Card } from "../components";
-import { TailSpin } from "react-loader-spinner";
+import { SideBar, Card, NavBar } from "../components";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 
 import "react-circular-progressbar/dist/styles.css";
 import { PageName } from "../components/atomic";
@@ -28,18 +29,65 @@ function Tasks() {
 
   if (loading) {
     return (
-      <>
+      <div className="md:ml-64 pt-14 bg-gray-100 h-full">
         <SideBar />
-        <div className="md:ml-64 flex items-center justify-center h-screen ">
-          <TailSpin height="80" width="80" color="#136ABA" />
+        <NavBar />
+        <PageName>taches</PageName>
+
+        <div className="w-full px-6 py-6  h-screen  ">
+          <div className="flex-none w-full   px-3">
+            <div className="relative flex flex-col h-full  p-4">
+              <div className=" flex flex-wrap  ">
+                {[0, 1].map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="w-full h-fit m-2 max-w-sm items-center bg-white p-5 flex-col rounded-lg border border-gray-200 shadow-md  "
+                  >
+                    <Stack spacing={1}>
+                      <div className="flex justify-between items-center ">
+                        <Skeleton
+                          variant="text"
+                          sx={{ fontSize: "2rem", width: "30%" }}
+                        />
+                        <Skeleton variant="circular" width={20} height={20} />
+                      </div>
+                      <Stack spacing={2}>
+                        <div className="flex justify-around items-center ">
+                          <Skeleton variant="circular" width={50} height={50} />
+                          <Skeleton variant="circular" width={50} height={50} />
+                          <Skeleton variant="circular" width={60} height={60} />
+                        </div>
+                        <Skeleton
+                          variant="rounded"
+                          width={"100%"}
+                          height={10}
+                        />
+
+                        <Skeleton
+                          variant="rounded"
+                          width={"100%"}
+                          height={50}
+                        />
+                        <Skeleton
+                          variant="rounded"
+                          width={"100%"}
+                          height={50}
+                        />
+                      </Stack>
+                    </Stack>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </>
+      </div>
     );
   }
   return (
-    <div className="md:ml-64 bg-gray-100 h-full">
+    <div className="md:ml-64 pt-14 bg-gray-100 h-full">
       <SideBar />
-
+      <NavBar />
       <PageName>taches</PageName>
 
       <div className="w-full px-6 py-6  h-full ">
