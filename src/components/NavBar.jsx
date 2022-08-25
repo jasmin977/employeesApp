@@ -12,14 +12,10 @@ function NavBar() {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies(["token"]);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = useState(false);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
   const handleClose = () => {
-    setAnchorEl(null);
+    setOpen(!open);
   };
   const logOut = () => {
     removeCookie("token");
@@ -33,13 +29,7 @@ function NavBar() {
         <Notif />
         <Button
           id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-          onClick={handleClick}
+          onClick={handleClose}
           endIcon={<IoIosArrowDown />}
         >
           <img
@@ -48,19 +38,6 @@ function NavBar() {
             alt="admin"
           />
         </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>Settings</MenuItem>
-          <MenuItem onClick={logOut}>Logout</MenuItem>
-        </Menu>
       </div>
     </div>
   );

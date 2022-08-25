@@ -128,6 +128,7 @@ route.delete("/:id", async (req, res) => {
 // @access Admin
 route.get("/timesheet", async (req, res) => {
   let { id, month, date } = req.query;
+
   if (!date) date = new Date();
   month = parseInt(month)
     ? parseInt(month)
@@ -140,7 +141,7 @@ route.get("/timesheet", async (req, res) => {
   from pointages as p, users as u 
   where date like ? and userId = u.id and userId = ?  order by date `,
       {
-        replacements: [formatDate(new Date(), month), id],
+        replacements: [formatDate(new Date(), month), id], //+1 to get the correct month index
       }
     );
   else

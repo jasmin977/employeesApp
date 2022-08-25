@@ -14,3 +14,4 @@ export { default as ToDoOverview } from "./ToDoOverview";
 export { default as BirthdayCard } from "./BirthdayCard";
 export { default as EmployeePresence } from "./EmployeePresence";
 export { default as HolidaysAndAbsences } from "./HolidaysAndAbsences";
+export { default as MonthChanger } from "./MonthChanger";

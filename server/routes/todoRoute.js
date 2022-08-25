@@ -44,6 +44,7 @@ route.get("/cards/", async (req, res) => {
         isDone: false,
       },
     });
+
     card["tasks"] = alltasks;
     card["done"] = done;
     card["notDone"] = notdone;
@@ -53,10 +54,14 @@ route.get("/cards/", async (req, res) => {
   return res.json(allTasks);
 });
 
-//GET ALL TASKS
+//GET ALL TASKS TO DO
 route.get("/", async (req, res) => {
-  const tasks = await TASK.findAll({});
-  return res.json(tasks);
+  const allTasksToDo = await TASK.findAll({
+    where: {
+      isDone: false,
+    },
+  });
+  return res.json(allTasksToDo);
 });
 //CREATE NEW TASK
 route.post("/", async (req, res) => {

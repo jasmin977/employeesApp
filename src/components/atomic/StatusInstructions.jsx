@@ -3,8 +3,8 @@ import React from "react";
 export default function StatusInstructions() {
   return (
     <div
-      className="  my-2  flex flex-row  
-        md:justify-end justify-center  text-gray-400 text-sm py-2   gap-2 "
+      className="   flex flex-row  
+        md:justify-end justify-center  text-gray-400 text-sm  gap-2 "
     >
       <div className=" flex items-center ">
         <div className={`bg-present w-2 h-2 mx-1`}></div>

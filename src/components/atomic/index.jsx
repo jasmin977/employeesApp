@@ -4,3 +4,9 @@ export { default as EmployeeInfoPreview } from "./EmployeeInfoPreview";
 
 export { default as PageName } from "./PageName";
 export { default as StatusInstructions } from "./StatusInstructions";
+
+export { default as Status } from "./Status";
+export { default as ErrorGif } from "./ErrorGif";
+export { default as NoResultGif } from "./NoResultsGif";
+
+export { default as Arrival } from "./Arrival";

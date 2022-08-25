@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
-import { EmployeeInfoPreview } from "./atomic";
+import { EmployeeInfoPreview, Status } from "./atomic";
 function ListEmployee({ employee }) {
   const navigator = useNavigate();
 
   return (
     <tr
       onClick={() => navigator(`/employee/${employee.id}`)}
-      className="hover:bg-slate-100 cursor-pointer"
+      className="hover:bg-slate-100 cursor-pointer "
     >
       <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
         <EmployeeInfoPreview employee={employee} />
@@ -32,16 +32,10 @@ function ListEmployee({ employee }) {
         </span>
       </td>
 
-      <td className="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
-        <Tooltip arrow title={`status: ${employee.status}`}>
-          <div
-            className={`${
-              employee.status === "absent" ? "bg-absent" : "bg-present"
-            } w-4 h-4 rounded-full  inline-block`}
-          ></div>
-        </Tooltip>
+      <td className="p-2  align-middle border-b  ">
+        <Status employee={employee} />
       </td>
-      <td className="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+      <td className="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap ">
         <span className="font-semibold leading-tight text-xs text-slate-400">
           {employee.employee_since}
         </span>

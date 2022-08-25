@@ -5,6 +5,12 @@
                               'embedded-opentype', and 'svg' */
 /* } */
 
+div#stripes {
+  
+  background-image: linear-gradient(45deg, #f76b61 25%, transparent 25%, transparent 50%, #f76b61 50%, #f76b61 75%, transparent 75%, #fff);
+  background-size: 10px 10px;
+}
+
 @font-face {
   font-family: "cairo";
   src: url("./fonts/Cairo/Cairo-VariableFont_wght.ttf");

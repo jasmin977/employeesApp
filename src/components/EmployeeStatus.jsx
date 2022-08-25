@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import { EmployeeInfoPreview } from "../components/atomic";
+import { EmployeeInfoPreview, Arrival } from "../components/atomic";
 import { formatDate, minutesToString } from "../helpers/format-time";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
@@ -17,10 +17,6 @@ function EmployeeStatus() {
   const getStatusColor = (status) => {
     if (status === "absent") return "late";
     return "present";
-  };
-  const getArrivalStatusColor = (arrival) => {
-    if (arrival.status === "late") return "late";
-    if (arrival.status === "early") return "extra";
   };
 
   useEffect(() => {
@@ -87,16 +83,10 @@ function EmployeeStatus() {
                   <EmployeeInfoPreview employee={employee} />
                 </th>
                 <th>
-                  <div
-                    className={`text-${getArrivalStatusColor(
-                      employee.timesheet[today].arrival
-                    )}`}
-                  >
-                    {employee.timesheet[today].arrival.status === "late"
-                      ? "-"
-                      : "+"}{" "}
-                    {minutesToString(employee.timesheet[today].arrival.time)}
-                  </div>
+                  <Arrival
+                    arrivedTime={employee.timesheet[today].arrival}
+                    color={employee.timesheet[today].arrival.status}
+                  />
                 </th>
 
                 <th>

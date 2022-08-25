@@ -14,7 +14,7 @@ export default function Button({
         color: color || "#fff",
       }}
       className="rounded bg-indigo-700 mt-2 md:mt-0 hover:opacity-90 transition-opacity
-        w-full md:w-40 text-white text-sm py-2 flex justify-center items-center gap-2 "
+        w-full h-10 md:w-40 text-white text-sm py-2 flex justify-center items-center gap-2 "
       onClick={action}
     >
       {Icon && <Icon color="white" size={20} />} {text}

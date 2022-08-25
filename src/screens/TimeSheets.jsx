@@ -9,7 +9,7 @@ import {
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Moment from "moment";
-
+import { TbFileExport } from "react-icons/tb";
 import {
   Button,
   EmployeeInfoPreview,
@@ -25,7 +25,7 @@ function TimeSheets() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [timesheet, settimesheet] = useState(null);
+  const [timesheet, settimesheet] = useState([]);
   const [todayDate, setTodayDate] = useState(
     Moment(new Date()).format("YYYY-MM-DD")
   );
@@ -147,12 +147,13 @@ function TimeSheets() {
                       value={searchText}
                       placeholder="rechercher employee..."
                     />
-                    <Button text="exporter" />
+                    <Button text="exporter" Icon={TbFileExport} />
                   </SearchWarpper>
                   <SearchWarpper>
                     <input
-                      className={`appearance-none block w-1/3  text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none
-         focus:bg-white   `}
+                      className={` text-gray-700 py-3 px-4 mb-3 leading-tight focus:outline-none
+         focus:bg-white  
+         flex items-center space-x-4 border border-slate-300 rounded-md p-2 w-full md:w-1/2 lg:w-1/3 `}
                       type="date"
                       name="changeDate"
                       value={todayDate}
@@ -181,18 +182,30 @@ function TimeSheets() {
                       total
                     </div>
                   </div>
-                  {timesheet &&
-                    timesheet.map((employee) => (
-                      <ListTimeSheetEmployee
-                        day={
-                          employee.timesheet[Object.keys(employee.timesheet)[0]]
-                        }
-                        userId={employee.userId}
-                        key={employee.userId}
-                      >
-                        <EmployeeInfoPreview employee={employee} />
-                      </ListTimeSheetEmployee>
-                    ))}
+                  {timesheet.length === 0 ? (
+                    <div className=" flex items-baseline justify-center pt-8 w-full bg-slate-50 h-screen">
+                      {" "}
+                      <div className="text-lg text-gray-400">
+                        aucun poitage pour {todayDate}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {timesheet.map((employee) => (
+                        <ListTimeSheetEmployee
+                          day={
+                            employee.timesheet[
+                              Object.keys(employee.timesheet)[0]
+                            ]
+                          }
+                          userId={employee.userId}
+                          key={employee.userId}
+                        >
+                          <EmployeeInfoPreview employee={employee} />
+                        </ListTimeSheetEmployee>
+                      ))}
+                    </>
+                  )}
                 </div>
               </div>
             </div>
