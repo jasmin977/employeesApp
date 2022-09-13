@@ -1,5 +1,4 @@
 import React from "react";
-import noresult from "../../img/noresult.gif";
 
 function NoResultGif({ imgPath }) {
   return (

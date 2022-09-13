@@ -25,7 +25,7 @@ module.exports.verifyToken = async (req, res, next) => {
   }
 };
 module.exports.verifyEmployee = async (req, res, next) => {
-  const { token } = req.headers;
+  const { token } = req.params;
   try {
     if (token) {
       const decodedToken = jwt.verify(token, MY_SECRET);

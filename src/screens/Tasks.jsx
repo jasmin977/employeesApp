@@ -97,6 +97,11 @@ function Tasks() {
               {cards.map((task, index) => (
                 <Card key={index} task={task} />
               ))}
+              <div className="w-full  flex max-w-sm justify-center  items-center  p-10   ">
+                <div className="flex bg-gray-300 w-1/3 h-1/2 rounded-full justify-center items-center  hover:bg-slate-300 hover:cursor-pointer">
+                  <div className="text-4xl text-gray-500 font-light">+</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

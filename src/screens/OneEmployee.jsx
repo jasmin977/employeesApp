@@ -10,9 +10,10 @@ import { DeletePopup, NavBar, SideBar } from "../components";
 import { Button } from "../components/atomic";
 function Employee() {
   const [employeeData, setEmployeeData] = useState();
-  const [popupBTN, setPopupBTN] = useState(false);
+  const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const days = {
     0: "Dimenche",
     1: "Lundi",
@@ -264,14 +265,14 @@ function Employee() {
             <div className="flex justify-end p-4">
               <Button
                 text="supprimer"
-                action={() => setPopupBTN(true)}
+                action={() => setOpen(true)}
                 bg="rgb(239, 68, 68)"
               />
             </div>
 
             <DeletePopup
-              trigger={popupBTN}
-              setTrigger={setPopupBTN}
+              trigger={open}
+              setTrigger={setOpen}
               id={id}
             ></DeletePopup>
           </div>

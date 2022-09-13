@@ -6,6 +6,8 @@ const joi = require("joi");
 const Pointage = require("../models/Pointage");
 const router = require("express").Router();
 const debug = require("debug")("routes:admin");
+const { formatDate } = require("../utilities/format-time");
+const sequelize = require("../DB/database");
 
 const schema = joi.object({
   matricul: joi.string().alphanum().length(10).required(),
@@ -50,11 +52,49 @@ setInterval(() => {
   }
 }, CHECK_INTERVAL);
 
-router.get("/", verifyEmployee, async (req, res) => {
+router.post("/login", async (req, res) => {
+  const { error, value } = schema.validate(req.body);
+  if (error) return res.status(400).json({ message: error.details[0].message });
+
+  const { matricul, password } = value;
+
+  const employee = await User.findOne({ where: { matricul } });
+  if (!employee)
+    return res.status(400).json({ error: "employee doesn't exist" });
+
+  const match = await bcrypt.compare(password, employee.password);
+  if (!match) return res.status(400).json({ error: "Wrong password" });
+
+  const token = jwt.sign({ id: employee.id }, process.env.MY_SECRET);
+  if (!token) return res.status(500);
+
+  res.status(200).json({
+    employee: employee.id,
+    status: true,
+    token,
+    employeeInfo: employee,
+  });
+});
+router.get("/:token", verifyEmployee, async (req, res) => {
   res.status(200).json(req.user);
 });
+router.get("/clocking/:token", verifyEmployee, async (req, res) => {
+  const myId = req.user.id;
+  console.log(myId);
+  let results = null;
+  if (myId)
+    [results] = await sequelize.query(
+      `select id,arrival,departure, departure,date
+  from pointages as p
+  where date like ?  and userId = ?  order by arrival `,
+      {
+        replacements: [formatDate(new Date()), myId],
+      }
+    );
+  res.status(200).json(results);
+});
 
-router.post("/", verifyEmployee, async (req, res) => {
+router.post("/:token", verifyEmployee, async (req, res) => {
   const userId = employesState.findIndex((item) => item.userId === req.user.id);
   if (userId === -1) {
     await req.user.update({
@@ -73,25 +113,6 @@ router.post("/", verifyEmployee, async (req, res) => {
   }
 
   res.json({ message: "you are checked in 😉" });
-});
-
-router.post("/login", async (req, res) => {
-  const { error, value } = schema.validate(req.body);
-  if (error) return res.status(400).json({ message: error.details[0].message });
-
-  const { matricul, password } = value;
-
-  const employee = await User.findOne({ where: { matricul } });
-  if (!employee)
-    return res.status(400).json({ error: "employee doesn't exist" });
-
-  const match = await bcrypt.compare(password, employee.password);
-  if (!match) return res.status(400).json({ error: "Wrong password" });
-
-  const token = jwt.sign({ id: employee.id }, process.env.MY_SECRET);
-  if (!token) return res.status(500);
-
-  res.status(200).json({ employee: employee.id, status: true, token });
 });
 
 module.exports = router;

@@ -4,15 +4,14 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import { NoResultGif } from "./atomic";
 import done from "../img/doneTasks.gif";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import { IoIosArrowDown } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { green } from "@mui/material/colors";
+
 function ToDoOverview() {
   const [loading, setLoading] = useState(true);
   const [allToDoTasks, setallToDoTasks] = useState();
   const [cards, setCards] = useState([]);
-
+  const navigator = useNavigate();
   useEffect(() => {
     const fetchTASKS = async () => {
       setLoading(true);
@@ -49,7 +48,12 @@ function ToDoOverview() {
     );
   }
   return (
-    <div className="  p-4 bg-white rounded-md shadow-sm">
+    <div
+      className={`p-4 ${
+        allToDoTasks.length === 0 ? "bg-green-200" : "bg-white"
+      } rounded-md shadow-sm hover:cursor-pointer`}
+      onClick={() => navigator(`/tasks`)}
+    >
       <div className="font-semibold tracking-wide">Ma To Do List</div>
       <div className="font-medium text-sm text-gray-500 mb-2">
         {`${new Date().getDate()} ${new Date().toLocaleString("default", {
@@ -58,7 +62,10 @@ function ToDoOverview() {
  ${new Date().getFullYear()}`}{" "}
       </div>
       {allToDoTasks.length === 0 ? (
-        <NoResultGif imgPath={done} />
+        <>
+          {/**  <NoResultGif imgPath={done} />*/}
+          <div>All Done</div>{" "}
+        </>
       ) : (
         <>
           {" "}
@@ -66,50 +73,33 @@ function ToDoOverview() {
             <>
               {task.tasks.length !== 0 &&
               task.tasks.length !== task.done.length ? (
-                <Accordion key={`_Card_${task.cardId}__${index}`}>
-                  <AccordionSummary
-                    expandIcon={<IoIosArrowDown />}
-                    aria-controls="panel-content"
-                    id="tasks"
-                  >
-                    <div className="p-1">
-                      <div className="flex flex-row justify-between">
-                        <h2>
-                          Card num°{index + 1}:{" "}
-                          <span className="font-semibold">{task.cardName}</span>
-                        </h2>
-                        <span>
-                          {task.done.length} / {task.tasks.length}
-                        </span>
-                      </div>
+                <div className="p-1">
+                  <div className="flex flex-row justify-between">
+                    <h2>
+                      Card num°{index + 1}:{" "}
+                      <span className="font-semibold">{task.cardName}</span>
+                    </h2>
+                    <span>
+                      {task.done.length} / {task.tasks.length}
+                    </span>
+                  </div>
 
-                      <div
-                        key={index}
-                        className="w-full h-3 my-1 bg-slate-100 rounded-md"
-                      >
-                        <div
-                          style={{
-                            width: `${
-                              (task.done.length * 100) / task.tasks.length
-                            }%`,
-                            height: "100%",
-                            backgroundColor: " rgb(34 197 94 )",
-                          }}
-                          className={`rounded-md px-4 `}
-                        ></div>
-                      </div>
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <div>
-                      {task.notDone.map((taskLeft, idx) => (
-                        <div key={`_tasks_${taskLeft.id}__${idx}`}>
-                          {taskLeft.text}
-                        </div>
-                      ))}
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
+                  <div
+                    key={index}
+                    className="w-full h-3 my-1 bg-slate-100 rounded-md"
+                  >
+                    <div
+                      style={{
+                        width: `${
+                          (task.done.length * 100) / task.tasks.length
+                        }%`,
+                        height: "100%",
+                        backgroundColor: " rgb(34 197 94 )",
+                      }}
+                      className={`rounded-md px-4 `}
+                    ></div>
+                  </div>
+                </div>
               ) : (
                 <></>
               )}

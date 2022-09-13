@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ListEmployee, NavBar, SearchWarpper, SideBar } from "../components";
-
+import noresult from "../img/noresult.gif";
 import { Link } from "react-router-dom";
 import { FiUserPlus } from "react-icons/fi";
 import {
@@ -165,7 +165,7 @@ function Employees() {
                           </tr>
                         </thead>
                       </table>
-                      <NoResultGif />
+                      <NoResultGif imgPath={noresult} />
                     </div>
                   ) : (
                     <table className="items-center w-full h-fit mb-0 align-top border-gray-200 text-slate-500">
