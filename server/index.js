@@ -1,19 +1,22 @@
 const path = require("path");
-require("express-async-errors");
 
+require("express-async-errors");
 require("dotenv").config({ path: path.join(__dirname, "config", ".env") });
 
+const debug = require("debug")("startup");
+const http = require("http");
+const { Server } = require("socket.io");
 const express = require("express");
 
-const debug = require("debug")("startup");
-
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
-require("./start/startup")(app);
+require("./start/startup")(app, io);
 require("./DB/database");
-
+require("./start/websocket")(io);
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   debug(`server is running on ${PORT}`);
 });

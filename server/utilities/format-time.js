@@ -1,9 +1,3 @@
-class CustomDate {
-  constructor(month) {
-    this.date = date;
-  }
-}
-
 function formatNumber(number, fix = 2) {
   return ("0".repeat(fix) + number).slice(-fix);
 }

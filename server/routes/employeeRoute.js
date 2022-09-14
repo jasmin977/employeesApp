@@ -8,6 +8,7 @@ const router = require("express").Router();
 const debug = require("debug")("routes:admin");
 const { formatDate } = require("../utilities/format-time");
 const sequelize = require("../DB/database");
+const { updateUserStatus } = require("../utilities/employeeStatusUpdate");
 
 const schema = joi.object({
   matricul: joi.string().alphanum().length(10).required(),
@@ -17,40 +18,6 @@ const schema = joi.object({
 let employesState = [];
 const CHECK_TIMEOUT = 1000 * 60;
 const CHECK_INTERVAL = 1000;
-
-setInterval(() => {
-  // decrement employee counter and delete employee with null or negative counters
-  for (let idx = 0; idx < employesState.length; idx++) {
-    const item = employesState[idx];
-    employesState[idx].counter -= CHECK_INTERVAL;
-    // handle if Employee have a negative counter (delete them from the cache, switch their status back to absent
-    // and update the pointage departure)
-    if (employesState[idx].counter <= 0) {
-      employesState = employesState.filter((_, i) => i !== idx);
-      User.update(
-        { status: "absent" },
-        {
-          where: {
-            id: item.userId,
-          },
-        }
-      );
-
-      const time = new Date();
-      const timeString = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
-
-      Pointage.update(
-        { departure: timeString },
-        {
-          where: {
-            userId: item.userId,
-            departure: null,
-          },
-        }
-      );
-    }
-  }
-}, CHECK_INTERVAL);
 
 router.post("/login", async (req, res) => {
   const { error, value } = schema.validate(req.body);
@@ -75,44 +42,31 @@ router.post("/login", async (req, res) => {
     employeeInfo: employee,
   });
 });
-router.get("/:token", verifyEmployee, async (req, res) => {
+router.get("/", verifyEmployee, async (req, res) => {
   res.status(200).json(req.user);
 });
-router.get("/clocking/:token", verifyEmployee, async (req, res) => {
-  const myId = req.user.id;
-  console.log(myId);
-  let results = null;
-  if (myId)
-    [results] = await sequelize.query(
-      `select id,arrival,departure, departure,date
-  from pointages as p
-  where date like ?  and userId = ?  order by arrival `,
-      {
-        replacements: [formatDate(new Date()), myId],
-      }
-    );
+
+router.get("/clocking", verifyEmployee, async (req, res) => {
+  const [results] = await sequelize.query(
+    ` select id,arrival,departure,date
+        from pointages
+        where date like ? and userId = ? order by arrival `,
+    {
+      replacements: [formatDate(new Date()), req.user.id],
+    }
+  );
   res.status(200).json(results);
 });
 
-router.post("/:token", verifyEmployee, async (req, res) => {
-  const userId = employesState.findIndex((item) => item.userId === req.user.id);
-  if (userId === -1) {
-    await req.user.update({
-      status: "present",
-    });
-    await req.user.save();
+/*
+ * @route POST /api/employee
+ * @desc employee manuel cloking (via button)
+ * @access employee
+ */
 
-    // TODO: create "pointage" row if the user presence status have changed
-    await Pointage.create({
-      userId: req.user.id,
-    });
-    employesState.push({ userId: req.user.id, counter: CHECK_TIMEOUT });
-  } else {
-    // TODO: refresh user counter
-    employesState[userId].counter = CHECK_TIMEOUT;
-  }
-
-  res.json({ message: "you are checked in 😉" });
+router.post("/", verifyEmployee, async (req, res) => {
+  const { user, pointage } = await updateUserStatus(req.user, "present");
+  res.status(200).json({ user, pointage });
 });
 
 module.exports = router;
