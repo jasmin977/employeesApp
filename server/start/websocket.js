@@ -24,6 +24,7 @@ const getEmployeeData = async (id) => {
 module.exports = (io) => {
   io.on("connect", async (socket) => {
     try {
+      let employee
       const { token } = socket.handshake.query;
       const decodedToken = jwt.verify(token, MY_SECRET);
       if (decodedToken.isBibo) {
@@ -31,7 +32,7 @@ module.exports = (io) => {
         adminSocket = socket.id;
         socket.emit("TIMESHETT_LAST_UPDATE", adminSocket);
       } else {
-        const employee = await User.findByPk(decodedToken.id);
+         employee = await User.findByPk(decodedToken.id);
         //employee connecté
         console.log("employee connected");
         const userAction = userDisconnectAction.find(
@@ -48,15 +49,20 @@ module.exports = (io) => {
 
       socket.on("disconnect", () => {
         console.log("disconnect ", socket.id);
-        const timeOutId = setTimeout(() => {
-          userDisconnectAction = userDisconnectAction.filter(
-            (a) => a.id !== employee.id
-          );
-          updateUserStatus(employee, "absent").then(({ user }) => {
-            console.log(`${user.id} is out`);
-          });
-        }, 1000 * 5);
-        userDisconnectAction.push({ id: employee.id, action: timeOutId });
+        if (decodedToken.isBibo) {
+console.log("admin deconnected");
+        }else{
+          const timeOutId = setTimeout(() => {
+            userDisconnectAction = userDisconnectAction.filter(
+              (a) => a.id !== employee.id
+            );
+            updateUserStatus(employee, "absent").then(({ user }) => {
+              console.log(`${user.id} is out`);
+            });
+          }, 1000 * 5);
+          userDisconnectAction.push({ id: employee.id, action: timeOutId });
+        }
+        
       });
     } catch (error) {
       console.log(error);

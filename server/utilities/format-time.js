@@ -20,6 +20,7 @@ function incrementDay(date, num_of_days = 1) {
 }
 
 function stringToMinutes(timeString) {
+  console.log(timeString.substring(0, 2));
   const hours = parseInt(timeString.substring(0, 2));
   const minutes = parseInt(timeString.substring(3, 5));
   return hours * 60 + minutes;

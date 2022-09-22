@@ -10,38 +10,29 @@ import { useForm } from "../components/hooks/useForm";
 import Button from "@mui/material/Button";
 import { AuthContext } from "../context/AuthContext";
 const Login = () => {
-  const [redirect, setredirect] = useState(false);
+
 
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [values, setValues] = useForm({ name: "", password: "" });
-  const { login, loggedIn } = useContext(AuthContext);
+  const { login, isLoggedin,verify } = useContext(AuthContext);
 
   useEffect(() => {
-    axios
-      .post("/api/auth/verify")
-      .then(({ data }) => {
-        if (data.status) {
-          navigate("/dashboard"); //which is dashhbord
-        } else {
-          setredirect(true);
-        }
-      })
-      .finally(() => setredirect(true));
-  }, [cookies, navigate]);
+    console.log("verify");
+    verify()
+  }, []);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      await login(values);
-      navigate("/dashboard", { replace: true });
-      console.log("login fun done");
+       login(values);
+      
     } catch (err) {
       console.log(err);
     }
   };
 
-  return redirect ? (
+  return !isLoggedin ? (
     <div className="relative flex min-h-screen flex-col  overflow-hidden bg-gray-60 py-6 sm:py-12 justify-around">
       <div className="relative bg-white  shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-sm flex flex-row justify-center sm:justify-start">
         <div className=" h-auto basis-1/2 grid grid-cols-1 gap-4 content-center mx-7">

@@ -1,26 +1,17 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { useEffect, useContext } from "react";
+
 import { Navigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export default function AuthRoute({ children }) {
-  const [redirect, setredirect] = useState(false);
-  const [isLoggedin, setisLoggedin] = useState(false);
-  const [cookies, removeCookie] = useCookies([]);
+  const { isLoggedin,setisLoggedin,verify } = useContext(AuthContext);
+
 
   useEffect(() => {
-    axios
-      .post("/api/auth/verify")
-      .then(({ data }) => {
-        if (data.status) {
-          setisLoggedin(true);
-        }
-      })
-      .catch((err) => {
-        removeCookie("token");
-      })
-      .finally(() => setredirect(true));
+    verify()
+      
   }, []);
 
-  return redirect ? isLoggedin ? children : <Navigate to={"/login"} /> : <></>;
+  return isLoggedin ? children : <Navigate to={"/login"} /> ;
 }

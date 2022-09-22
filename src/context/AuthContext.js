@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext({
   login: () => {},
   logout: () => {},
-  loggedIn: {},
-  socketId: {},
+  verify: () => {},
+  isLoggedin: {},
   adminToken: {},
 });
 
@@ -14,15 +14,16 @@ export default function AuthProvider({ children }) {
   const [adminToken, setadminToken] = useState(
     document.cookie.split("=")[1] || null
   );
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [socketId, setSocketId] = useState(null);
+  const [isLoggedin, setisLoggedin] = useState(false);
   const navigate = useNavigate();
 
   const login = async (values) => {
     try {
       const res = await axios.post(`/api/auth/login`, { ...values });
-      setLoggedIn(true);
+      setisLoggedin(true);
       setadminToken(document.cookie.split("=")[1]);
+      navigate("/dashboard", { replace: true });
+
     } catch (error) {
       console.log(error);
     }
@@ -32,9 +33,26 @@ export default function AuthProvider({ children }) {
     try {
       const res = axios.post("/api/admin/logout");
       setadminToken(null);
+      setisLoggedin(false)
       navigate("/login");
     } catch (error) {
       console.log(error);
+    }
+  };
+  const verify = async () => {
+    try {
+      const res = await axios.post(`/api/auth/verify`);
+      if(res.data.status ){
+        navigate("/dashboard"); //which is dashhbord
+      }
+      else {
+        setisLoggedin(false);
+       
+      }
+     
+    } catch (error) {
+      console.log(error);
+     
     }
   };
 
@@ -43,11 +61,10 @@ export default function AuthProvider({ children }) {
       value={{
         login,
         logout,
-        socketId,
-        setSocketId,
+        verify,
         adminToken,
-        loggedIn,
-        setLoggedIn,
+        isLoggedin,
+        setisLoggedin,
       }}
     >
       {children}

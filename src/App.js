@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   BrowserRouter as Router,
@@ -21,16 +21,19 @@ import Calender from "./screens/Calender";
 import EditEmployee from "./screens/EditEmployee";
 import AuthProvider from "./context/AuthContext";
 import SocketProvider from "./context/socketProvider";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
+  const { isLoggedin } = useContext(AuthContext);
+
   return (
     <Router>
       <AuthProvider>
         <SocketProvider>
           <Routes>
-            <Route exact path="/login" element={<Login />} />
-
-            <Route
+           
+            <Route exact path="/login" element={<Login />} /> 
+              <Route
               exact
               path="/dashboard"
               element={
@@ -39,6 +42,9 @@ function App() {
                 </AuthRoute>
               }
             />
+            
+
+         
             <Route
               exact
               path="/employees"
