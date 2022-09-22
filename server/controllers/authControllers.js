@@ -25,7 +25,7 @@ module.exports.login = async (req, res) => {
   res
     .status(200)
     .cookie("token", token, { httpOnly: false })
-    .json({ admin: admin.id, status: true });
+    .json({ admin: admin.id, status: true,token:token });
   // res.header("auth-token", token).send(token);
   //when we loged in we send that token to the header
   //yraja3lek paylod fwestou user id eli 3tithoulou

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineLock, AiOutlineUser } from "react-icons/ai";
@@ -7,13 +7,16 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InputField, Clock } from "../components";
 import { useForm } from "../components/hooks/useForm";
-
+import Button from '@mui/material/Button';
+import { AuthContext } from "../context/AuthContext";
 const Login = () => {
   const [redirect, setredirect] = useState(false);
 
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [values, setValues] = useForm({ name: "", password: "" });
+  const { login,adminToken,loggedIn } = useContext(AuthContext);
+
 
   useEffect(() => {
     axios
@@ -28,17 +31,16 @@ const Login = () => {
       .finally(() => setredirect(true));
   }, [cookies, navigate]);
 
-  const handleSubmit = async (event) => {
+
+
+
+  const handleSubmit =  (event) => {
     event.preventDefault();
-    try {
-      const { data } = await axios.post("/api/auth/login", { ...values });
-      if (data.status) {
-        console.log(data.status);
-        navigate("/dashboard", { replace: true });
-      }
-    } catch (ex) {
-      console.log(ex);
-    }
+    login(values)
+    .then(()=>
+    {navigate("/dashboard", { replace: true });
+    console.log("login fun done ");
+    })
   };
 
   return redirect ? (
@@ -68,13 +70,14 @@ const Login = () => {
               action={(e) => setValues(e)}
             />
             <div className="flex justify-end items-center w-full">
-              <button
-                className="rounded bg-gradient-to-t  from-my-dark-blue to-my-sky-blue font-medium self-end
-              w-1/2 text-white text-sm py-2  my-3.5"
+              <Button
+                className=" font-medium 
+              w-1/2 text-white text-sm py-2  my-4"
+              variant="contained"
                 type="submit"
               >
                 Login
-              </button>
+              </Button>
             </div>
           </form>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import avatar from "../../img/employee.png";
 import Button from "@mui/material/Button";
 import { IoIosArrowDown } from "react-icons/io";
@@ -8,16 +8,20 @@ import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { AuthContext } from "../../context/AuthContext";
 
 function Settings() {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies(["token"]);
+  const { login,adminToken,setLoggedIn } = useContext(AuthContext);
 
   const logOut = () => {
     removeCookie("token");
+    setLoggedIn(false);
     navigate("/login");
+
   };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

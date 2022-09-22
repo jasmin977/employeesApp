@@ -69,6 +69,7 @@ function TimeSheets() {
 
   const onChangeDate = (e) => {
     const newDate = Moment(new Date(e.target.value)).format("YYYY-MM-DD");
+    console.log(newDate);
     setTodayDate(newDate);
   };
   useEffect(() => {

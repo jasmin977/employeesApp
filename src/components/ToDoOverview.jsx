@@ -37,7 +37,7 @@ function ToDoOverview() {
         </div>
 
         {[0, 1, 2].map((_, idx) => (
-          <div index={idx} className="items-center justify-start py-3">
+          <div key={idx} className="items-center justify-start py-3">
             <Stack spacing={0.5}>
               <Skeleton variant="rounded" width={"100%"} height={5} />
               <Skeleton variant="rounded" width={"100%"} height={15} />
@@ -70,7 +70,7 @@ function ToDoOverview() {
         <>
           {" "}
           {cards.map((task, index) => (
-            <>
+            <div key={index}>
               {task.tasks.length !== 0 &&
               task.tasks.length !== task.done.length ? (
                 <div className="p-1">
@@ -103,7 +103,7 @@ function ToDoOverview() {
               ) : (
                 <></>
               )}
-            </>
+            </div>
           ))}
         </>
       )}

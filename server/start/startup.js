@@ -11,13 +11,13 @@ const { errorHandler } = require("../middlewares/errorHandler");
 const bodyParser = require("body-parser");
 
 module.exports = (app, io) => {
-  // app.use(
-  //     cors({
-  //       origin: ["http://localhost:3000"],
-  //       methods: ["GET", "POST"],
-  //       credentials: true,
-  //     })
-  //   );
+   app.use(
+      cors({
+        origin: ["http://localhost:3000"],
+       
+         credentials: true,
+       })
+    );
   app.use((req, res, next) => {
     req.io = io;
     next();
