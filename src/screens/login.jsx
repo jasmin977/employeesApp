@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineLock, AiOutlineUser } from "react-icons/ai";
@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { InputField, Clock } from "../components";
 import { useForm } from "../components/hooks/useForm";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { AuthContext } from "../context/AuthContext";
 const Login = () => {
   const [redirect, setredirect] = useState(false);
@@ -15,8 +15,7 @@ const Login = () => {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   const [values, setValues] = useForm({ name: "", password: "" });
-  const { login,adminToken,loggedIn } = useContext(AuthContext);
-
+  const { login, loggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     axios
@@ -31,16 +30,15 @@ const Login = () => {
       .finally(() => setredirect(true));
   }, [cookies, navigate]);
 
-
-
-
-  const handleSubmit =  (event) => {
-    event.preventDefault();
-    login(values)
-    .then(()=>
-    {navigate("/dashboard", { replace: true });
-    console.log("login fun done ");
-    })
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      await login(values);
+      navigate("/dashboard", { replace: true });
+      console.log("login fun done");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return redirect ? (
@@ -73,7 +71,7 @@ const Login = () => {
               <Button
                 className=" font-medium 
               w-1/2 text-white text-sm py-2  my-4"
-              variant="contained"
+                variant="contained"
                 type="submit"
               >
                 Login

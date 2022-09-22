@@ -25,6 +25,10 @@ const schema = Joi.object({
 
 const debug = require("debug")("routes:admin");
 
+route.post("/logout", (req, res) => {
+  res.clearCookie("token");
+});
+
 route.get("/", async (req, res) => {
   const { id } = req.query;
   if (!id) {
@@ -72,6 +76,9 @@ route.get("/employees", async (req, res) => {
   });
 });
 
+/*
+  @desc Create new employee
+*/
 route.post("/", async (req, res) => {
   const { error, value } = schema.validate(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
@@ -92,6 +99,9 @@ route.post("/", async (req, res) => {
   res.json(user);
 });
 
+/*
+  @desc Update employee data
+*/
 route.put("/:id", async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "invalid id" });
@@ -112,6 +122,9 @@ route.put("/:id", async (req, res) => {
   res.json(updatedEmployee);
 });
 
+/*
+  @desc delete employee
+*/
 route.delete("/:id", async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "invalid id" });

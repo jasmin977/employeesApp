@@ -19,13 +19,13 @@ module.exports.login = async (req, res) => {
 
   //creat and assign a token
 
-  const token = jwt.sign({ id: admin.id }, MY_SECRET);
+  const token = jwt.sign({ id: admin.id, isBibo: true }, MY_SECRET);
   if (!token) return res.status(400).json({ error: "token not signed" });
 
   res
     .status(200)
     .cookie("token", token, { httpOnly: false })
-    .json({ admin: admin.id, status: true,token:token });
+    .json({ admin: admin.id, status: true });
   // res.header("auth-token", token).send(token);
   //when we loged in we send that token to the header
   //yraja3lek paylod fwestou user id eli 3tithoulou

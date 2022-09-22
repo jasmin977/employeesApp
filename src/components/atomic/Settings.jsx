@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import avatar from "../../img/employee.png";
 import Button from "@mui/material/Button";
 import { IoIosArrowDown } from "react-icons/io";
@@ -13,16 +13,9 @@ import { AuthContext } from "../../context/AuthContext";
 function Settings() {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies(["token"]);
-  const { login,adminToken,setLoggedIn } = useContext(AuthContext);
+  const { login, adminToken, setLoggedIn, logout } = useContext(AuthContext);
 
-  const logOut = () => {
-    removeCookie("token");
-    setLoggedIn(false);
-    navigate("/login");
-
-  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
@@ -59,7 +52,7 @@ function Settings() {
                   <span>Settings</span>
                 </div>
                 <div
-                  onClick={logOut}
+                  onClick={logout}
                   className=" flex flex-row hover:bg-gray-50 hover:cursor-pointer   p-3 py-4"
                 >
                   <BiLogOut color="black" size={20} className="mx-2"></BiLogOut>

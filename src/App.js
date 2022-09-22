@@ -19,98 +19,104 @@ import AddEmployee from "./screens/AddEmployee";
 import Tasks from "./screens/Tasks";
 import Calender from "./screens/Calender";
 import EditEmployee from "./screens/EditEmployee";
+import AuthProvider from "./context/AuthContext";
+import SocketProvider from "./context/socketProvider";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route exact path="/login" element={<Login />} />
+      <AuthProvider>
+        <SocketProvider>
+          <Routes>
+            <Route exact path="/login" element={<Login />} />
 
-        <Route
-          exact
-          path="/dashboard"
-          element={
-            <AuthRoute>
-              <Dashboard />
-            </AuthRoute>
-          }
-        />
-        <Route
-          exact
-          path="/employees"
-          element={
-            <AuthRoute>
-              <Employees />
-            </AuthRoute>
-          }
-        />
-        <Route
-          exact
-          path="/addemployee/"
-          element={
-            <AuthRoute>
-              <AddEmployee />
-            </AuthRoute>
-          }
-        />
-        <Route
-          exact
-          path="/editemployee/:id"
-          element={
-            <AuthRoute>
-              <EditEmployee />
-            </AuthRoute>
-          }
-        />
+            <Route
+              exact
+              path="/dashboard"
+              element={
+                <AuthRoute>
+                  <Dashboard />
+                </AuthRoute>
+              }
+            />
+            <Route
+              exact
+              path="/employees"
+              element={
+                <AuthRoute>
+                  <Employees />
+                </AuthRoute>
+              }
+            />
+            <Route
+              exact
+              path="/addemployee/"
+              element={
+                <AuthRoute>
+                  <AddEmployee />
+                </AuthRoute>
+              }
+            />
+            <Route
+              exact
+              path="/editemployee/:id"
+              element={
+                <AuthRoute>
+                  <EditEmployee />
+                </AuthRoute>
+              }
+            />
 
-        <Route
-          exact
-          path="/employee/:id"
-          element={
-            <AuthRoute>
-              <Employee />
-            </AuthRoute>
-          }
-        />
-        <Route
-          exact
-          path="/timesheets"
-          element={
-            <AuthRoute>
-              <TimeSheets />
-            </AuthRoute>
-          }
-        />
-        <Route
-          exact
-          path="/timesheet/:id"
-          element={
-            <AuthRoute>
-              <TimeSheetEmployee />
-            </AuthRoute>
-          }
-        />
+            <Route
+              exact
+              path="/employee/:id"
+              element={
+                <AuthRoute>
+                  <Employee />
+                </AuthRoute>
+              }
+            />
+            <Route
+              exact
+              path="/timesheets"
+              element={
+                <AuthRoute>
+                  <TimeSheets />
+                </AuthRoute>
+              }
+            />
+            <Route
+              exact
+              path="/timesheet/:id"
+              element={
+                <AuthRoute>
+                  <TimeSheetEmployee />
+                </AuthRoute>
+              }
+            />
 
-        <Route
-          exact
-          path="/tasks"
-          element={
-            <AuthRoute>
-              <Tasks />
-            </AuthRoute>
-          }
-        />
-        <Route
-          exact
-          path="/calender"
-          element={
-            <AuthRoute>
-              <Calender />
-            </AuthRoute>
-          }
-        />
-        <Route path="/*" element={<Navigate to="/dashboard" />} />
-      </Routes>
+            <Route
+              exact
+              path="/tasks"
+              element={
+                <AuthRoute>
+                  <Tasks />
+                </AuthRoute>
+              }
+            />
+            <Route
+              exact
+              path="/calender"
+              element={
+                <AuthRoute>
+                  <Calender />
+                </AuthRoute>
+              }
+            />
+            <Route path="/*" element={<Navigate to="/dashboard" />} />
+          </Routes>
+        </SocketProvider>
+      </AuthProvider>
     </Router>
   );
 }
